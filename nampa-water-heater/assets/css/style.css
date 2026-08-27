@@ -457,27 +457,33 @@ a:hover { color: var(--ember-dark); text-decoration: underline; }
   text-decoration: none;
 }
 
-.btn-dark {
-  background: var(--navy);
-  color: white;
-  font-family: 'Oswald', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  padding: 0.75rem 1.5rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-decoration: none;
-  display: inline-flex;
+/* =====================
+   STAT BAR (Since / Serviced / Response Time / Licensed)
+   ===================== */
+.stat-bar {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem;
-  transition: background 0.2s ease;
-  border: 2px solid var(--navy);
+  gap: 0.9rem;
+  margin: 0 0 1.5rem;
+  padding: 0.9rem 1.25rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-left: 3px solid var(--ember);
 }
 
-.btn-dark:hover {
-  background: var(--text-dark);
-  color: white;
-  text-decoration: none;
+.stat-bar-item {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.stat-bar-divider {
+  color: var(--steel);
+  font-weight: 400;
 }
 
 .trust-signals {
@@ -1220,6 +1226,40 @@ a:hover { color: var(--ember-dark); text-decoration: underline; }
   color: var(--navy);
 }
 
+.cost-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0 1.75rem;
+  font-size: 0.92rem;
+}
+
+.cost-table th,
+.cost-table td {
+  padding: 0.7rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.cost-table th {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  color: var(--white);
+  background: var(--navy);
+}
+
+.cost-table tbody tr:nth-child(even) {
+  background: var(--light-warm);
+}
+
+.cost-table td:last-child {
+  font-family: 'Roboto Mono', monospace;
+  color: var(--text-mid);
+  white-space: nowrap;
+}
+
 /* =====================
    ABOUT PAGE
    ===================== */
@@ -1416,6 +1456,7 @@ a:hover { color: var(--ember-dark); text-decoration: underline; }
   h1 { font-size: 1.85rem; }
   h2 { font-size: 1.5rem; }
   .header-cta { display: none; }
+  .cost-table { display: block; overflow-x: auto; white-space: nowrap; }
 }
 
 /* Print */
