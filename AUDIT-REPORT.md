@@ -592,3 +592,79 @@ All fixes verified not to break `FAQPage` schema/visible parity (re-ran `check_f
 - **2 genuine entity-coverage gaps** closed (`recovery rate` on 2 commercial pages, `GPM` on 1 tankless page)
 - **0 genuine duplication or keyword-stuffing issues found** (checked, not assumed)
 - **All 5 verification scripts pass clean** after every fix
+
+---
+
+## Phase 5 — Image Library Integration & Site-Wide Maximization (2026-08)
+
+The client supplied a real local photo library at `assets/images/` (46 files:
+45 photos in `.webp`/`.jpg` + `favicon.ico`). This phase replaced every
+remaining Unsplash placeholder with a locally-hosted, topically-matched image
+and expanded image coverage to every page that lacked one — most notably the
+6 symptom pages, which previously carried zero images of any kind.
+
+### What changed
+
+1. **Eliminated all remote image dependencies.** 19 `<img>`/CSS-background
+   references to `images.unsplash.com` (index hero, about, 14 service pages,
+   3 area pages) were replaced with local `assets/images/` files chosen for
+   exact topical match (e.g. `services/commercial-repair.html` now uses
+   `commercial-water-heater-repair-near-you.webp`). `grep -r "unsplash" .`
+   now returns zero matches sitewide.
+2. **Added images to all 6 previously-imageless symptom pages**
+   (`symptoms/leaking.html`, `no-hot-water.html`, `noise.html`,
+   `pilot-light.html`, `rusty-water.html`, `breaker-tripping.html`) — each
+   now opens with an exact-topic hero image after the "Common Causes"
+   section and a second (or, on `no-hot-water.html`, two additional)
+   complementary image before the FAQ section.
+3. **Expanded coverage on high-intent service pages** to 2–4 images each
+   (gas repair, electric repair, tankless repair, tankless installation,
+   replacement) by drawing on brand-specific and symptom-overlap images from
+   the library (e.g. Rinnai/Navien/Noritz tankless-brand photos on
+   `tankless-repair.html`).
+4. **Added a "Brands We Service" image grid to `index.html`** (8 images:
+   American Standard, A.O. Smith, Bradford White, Navien, Noritz, Rheem
+   tankless, Rheem tank, Rinnai) directly beneath the existing "All Major
+   Brands Serviced" text callout — the single highest-density use of the
+   brand-name image set.
+5. **Added a sitewide favicon link** (`<link rel="icon">`, `favicon.ico`)
+   and a small **footer logo image** (`nampa-water-heater-pros-logo.png`)
+   to all 29 pages' `<head>` and footer respectively, so both non-content
+   library files are also genuinely in use rather than sitting idle.
+6. **`contact.html` and `areas/index.html`**, which had zero images, each
+   received one contextually appropriate image.
+
+### Coverage result
+
+| Metric | Before this phase | After this phase |
+|---|---|---|
+| Pages with 0 images | 6 symptom pages + contact.html + areas/index.html = 8 | **0** (only `privacy-policy.html`/`terms.html` remain imageless — legal boilerplate, no relevant image exists) |
+| Remote/Unsplash image references | 19 | **0** |
+| Local images in `assets/images/` actively referenced | 0 of 46 | **46 of 46** |
+| Total `<img>` tags site-wide (content + favicon/logo) | 7 | **87** |
+
+Every `<img>` carries descriptive alt text, `loading="lazy"` (non-hero), and
+inline responsive sizing (`width`/`height` + `style="width:100%;height:auto"`).
+The homepage hero remains a CSS `background-image` (not an `<img>`), now
+pointing at a local file instead of Unsplash.
+
+### Validation — all 5 scripts, clean run
+
+| Script | Result |
+|---|---|
+| `check_links.py` | ✅ 0 broken internal links |
+| `validate_schema.py` | ✅ 86/86 JSON-LD blocks valid |
+| `check_phone.py` | ✅ Full pass — 0 old numbers, 187/187 `tel:` links correct |
+| `check_h1.py` | ✅ 29/29 pages, exactly one H1 each, unique sitewide |
+| `check_faq_parity.py` | ✅ 25/25 pages with FAQ schema match visible text word-for-word |
+
+Additional checks specific to this pass:
+- `grep -r "unsplash" .` → 0 matches.
+- Custom Python resolver confirmed all 116 `assets/images/`-referencing
+  `src`/`href` attributes across the site resolve to a real file on disk
+  (one path-depth bug on `areas/index.html`'s new image was caught and
+  fixed by this check before commit).
+- All 46 files in `assets/images/` confirmed referenced at least once.
+
+`rules/image-guidelines.md` §1 ("Current state") updated to reflect the new
+image library — it previously stated Nampa had no local image library at all.

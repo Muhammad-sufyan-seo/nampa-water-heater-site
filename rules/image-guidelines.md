@@ -1,41 +1,41 @@
 # Image Guidelines — Nampa Water Heater Pros
 
 Adapted from the Harrisburg reference site's `IMAGE-MANIFEST.md` and CLAUDE.md
-§12 (Image Design System). **The starting position is materially different and
-that difference is the most important thing in this file:** Harrisburg has a
-39-file local photo library (`assets/images/`) with a documented manifest of
-which real file every page uses. Nampa has **no local image library at all** —
-`assets/` contains only `css/` and `js/`. The 7 `<img>` tags that exist across
-Nampa's 29 pages all point to remote Unsplash URLs, and 22 of the 29 pages
-carry zero images of any kind.
-
-Do not let this file's structure (borrowed from a site with real photography)
-imply Nampa has image coverage it doesn't. Every claim below about what
-currently exists is stated plainly; recommendations for what to add are
-labeled as such, not presented as already-done.
+§12 (Image Design System). Nampa now has its own local photo library —
+`assets/images/` — with 46 real files (45 photos + `favicon.ico`), all used
+site-wide as of the 2026-08 image-maximization pass. This supersedes the
+"no local image library" state described in earlier versions of this file.
 
 ---
 
-## 1. Current state (as of this rules migration)
+## 1. Current state (as of the 2026-08 image-maximization pass)
 
-| Page | Image(s) |
+All 29 pages use only local `assets/images/` files. There are zero remote
+Unsplash (or other external) image references anywhere on the site.
+
+| Page group | Images per page |
 |---|---|
-| `about.html` | 1 (Unsplash) |
-| `services/repair.html` | 1 (Unsplash) |
-| `services/installation.html` | 1 (Unsplash) |
-| `services/replacement.html` | 1 (Unsplash) |
-| `areas/downtown-nampa.html` | 1 (Unsplash) |
-| `areas/central-nampa.html` | 1 (Unsplash) |
-| `areas/south-nampa.html` | 1 (Unsplash) |
-| All other 22 pages (index, contact, privacy, terms, areas/index, 9 fuel-matrix service pages, maintenance, 6 symptom pages) | **0** |
+| `index.html` | Hero (local JPG background) + an 8-image brand grid |
+| `about.html`, `contact.html`, `areas/index.html` | 1–2 contextual images |
+| 3 area pages (`areas/downtown-nampa.html`, `central-nampa.html`, `south-nampa.html`) | 2 each |
+| 14 service pages | 2–4 each, concentrated on higher-intent pages (gas/electric repair, tankless repair/installation, replacement) |
+| 6 symptom pages (`symptoms/*.html`) | 2–3 each — previously had **zero** images; now every symptom page opens with an exact-topic hero image |
+| `privacy-policy.html`, `terms.html` | 0 (legal boilerplate; no content image is contextually relevant) |
 
-Each of the 7 existing images already carries: descriptive alt text
-(entity + Nampa reference), `loading="lazy"`, and inline sizing. None uses
-`srcset`/`sizes` — the site has no responsive-image pattern established
-anywhere, so there is no existing convention to "stay consistent with" per
-se; CSS `max-width: 100%; height: auto;` on the image element (already the
-site's implicit behavior via its content-width containers) is the applicable
-pattern until/unless a `srcset` convention is deliberately introduced.
+Every `<img>` tag carries: descriptive alt text (entity + Nampa reference),
+`loading="lazy"` (all non-decorative images; the homepage hero is a CSS
+`background-image`, not an `<img>`, so lazy-loading doesn't apply to it),
+and inline `width`/`height` + `style="width:100%;height:auto;display:block;"`
+for responsive sizing. None uses `srcset`/`sizes` — the site has no
+responsive-image pattern established anywhere, so there is no existing
+convention to "stay consistent with" per se; the current CSS approach is the
+applicable pattern until/unless a `srcset` convention is deliberately
+introduced.
+
+A `<link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">`
+(root pages) / `href="../assets/images/favicon.ico"` (subfolder pages) is
+present in every page's `<head>`, and the `nampa-water-heater-pros-logo.png`
+file is used as a small image in every page's footer brand block.
 
 ## 2. What Harrisburg's system looks like, for reference only
 
