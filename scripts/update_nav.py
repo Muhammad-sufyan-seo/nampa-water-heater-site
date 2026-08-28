@@ -9,7 +9,7 @@ structure changes again, but review the diff before committing.
 import os
 import re
 
-BASE = "/home/user/nampa-water-heater-site/nampa-water-heater"
+BASE = "/home/user/nampa-water-heater-site"
 
 def get_prefix(filepath):
     """Return the relative path prefix based on file depth."""
@@ -258,8 +258,7 @@ def process_file(filepath):
 
 # Process all existing HTML files
 for root_dir, dirs, files in os.walk(BASE):
-    # Skip symptoms dir since those don't exist yet
-    dirs[:] = [d for d in dirs if d != 'assets']
+    dirs[:] = [d for d in dirs if d not in ('.git', 'scripts', 'assets')]
     for fname in files:
         if fname.endswith('.html'):
             process_file(os.path.join(root_dir, fname))

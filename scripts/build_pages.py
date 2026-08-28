@@ -9,7 +9,7 @@ re-run against a live page without re-applying those fixes afterward, or use
 it only as a reference for the page structure/template pattern.
 """
 
-BASE = "/home/user/nampa-water-heater-site/nampa-water-heater"
+BASE = "/home/user/nampa-water-heater-site"
 
 PHONE_DISPLAY = "(208) 987-5152"
 PHONE_TEL = "+12089875152"

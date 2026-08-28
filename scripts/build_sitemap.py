@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 import os
 
-BASE = "/home/user/nampa-water-heater-site/nampa-water-heater"
+BASE = "/home/user/nampa-water-heater-site"
 DOMAIN = "https://nampawaterheater.com"
 
 pages = []
 for root, dirs, files in os.walk(BASE):
-    if 'assets' in root:
-        continue
+    dirs[:] = [d for d in dirs if d not in ('.git', 'scripts', 'assets')]
     for fname in sorted(files):
         if fname.endswith('.html'):
             rel = os.path.relpath(os.path.join(root, fname), BASE)

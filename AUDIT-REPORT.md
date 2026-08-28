@@ -343,3 +343,47 @@ Added `scripts/check_phone.py` (new; complements `check_links.py` and `validate_
 - **JS click-interception check:** passed — no script touches or blocks `tel:` link behavior
 
 **Zero instances of any incorrect phone number remain anywhere on the site.** Every visible phone number reads exactly `(208) 987-5152`. Every clickable phone link uses `href="tel:+12089875152"` and will trigger native click-to-call on mobile with no JavaScript in the way. Every schema `telephone` field now uses the `+1-208-987-5152` international-dash format.
+
+---
+
+## DIRECTORY FLATTENING — MOVED TO ROOT
+
+**Change date:** 2026-08-28
+
+The site previously lived inside a `nampa-water-heater/` subfolder at the repo root, which was causing Cloudflare Pages deployment issues (Pages expects the site's `index.html` and assets at the configured build-output root, not nested one level deeper than necessary). This pass flattened the structure.
+
+### What Moved
+
+Every file and folder from inside `nampa-water-heater/` was moved to the repository root via `git mv` (preserving file history):
+
+- `index.html`, `about.html`, `contact.html`, `privacy-policy.html`, `terms.html`, `sitemap.xml`, `robots.txt` — moved to root
+- `services/`, `areas/`, `symptoms/`, `assets/` (including `assets/css/` and `assets/js/`) — moved to root as whole subtrees, contents unchanged
+
+The now-empty `nampa-water-heater/` directory was then removed with `rmdir`. `scripts/` and `AUDIT-REPORT.md` were already at the root and were not touched.
+
+### Path Verification — No Broken Paths
+
+Because the entire site subtree moved as a single unit (every page and its assets shifted up by exactly one directory level together), **all relative paths between pages and assets remained correct with zero edits needed**:
+- Root-level pages (`index.html`, `about.html`, etc.) already referenced `assets/css/style.css` and `assets/js/main.js` with no `../` prefix — still correct, since `assets/` is now also at root.
+- One-level-deep pages (`services/*.html`, `areas/*.html`, `symptoms/*.html`) already referenced `../assets/...` and `../index.html` — still correct, since those pages are still exactly one level below the new root.
+- **Canonical tags, schema `url`/`@id` fields, `sitemap.xml`, and `robots.txt`** were already using absolute URLs (`https://nampawaterheater.com/...`) that matched the site's intended final root-relative structure — these were never dependent on the physical `nampa-water-heater/` folder name and needed no changes. Spot-checked one page per directory depth (root, `services/`, `areas/`, `symptoms/`) to confirm.
+
+### Real Bug Found and Fixed: Verification Scripts
+
+The 7 build/audit scripts in `scripts/` (`build_pages.py`, `build_sitemap.py`, `check_links.py`, `check_phone.py`, `fix_mobile_nav.py`, `update_nav.py`, `validate_schema.py`) all hardcoded `BASE = "/home/user/nampa-water-heater-site/nampa-water-heater"` — pointing at the now-deleted subfolder. Updated all 7 to `BASE = "/home/user/nampa-water-heater-site"` (the new repo root).
+
+This surfaced a second, related bug: with `BASE` now set to the actual repo root, `os.walk(BASE)` in `check_links.py`, `validate_schema.py`, `build_sitemap.py`, `update_nav.py`, and `check_phone.py` would additionally descend into `.git/` (thousands of internal git objects) and `scripts/` (irrelevant `.py` files) on every run — harmless to correctness (both only match `.html`/`.js`/etc. by extension) but wasteful, and a latent risk if the repo ever grows a build tool that drops matching-extension files inside `.git/hooks` or similar. Fixed all 5 affected scripts to prune `.git` and `scripts` from the walk via `dirs[:] = [d for d in dirs if d not in (...)]`, in addition to the existing `assets` exclusion where applicable.
+
+### Verification After Flatten
+
+| Check | Result |
+|---|---|
+| `scripts/check_links.py` | ✅ 0 broken internal links (runs in ~0.02s, confirming `.git` is now properly pruned) |
+| `scripts/validate_schema.py` | ✅ All 82 JSON-LD blocks still valid |
+| `scripts/check_phone.py` | ✅ Full PASS — 187/187 `tel:` links correct, 24/24 schema `telephone` fields correct, 0 old numbers |
+| H1 count per page | ✅ Exactly 1 on all 29 pages, confirmed intact after the move |
+| File count vs. sitemap | ✅ 29 `.html` files on disk, 29 `<loc>` entries in `sitemap.xml` — exact match |
+| `robots.txt` | ✅ Unchanged, still `Allow: /` with correct `Sitemap:` reference |
+| All scripts compile | ✅ All 9 files in `scripts/` (8 original + `check_phone.py`) pass `python3 -m py_compile` after the `BASE` path update |
+
+**Confirmed: `nampa-water-heater/` subfolder no longer exists. All website files (HTML, CSS, JS, images referenced by path, `sitemap.xml`, `robots.txt`) live directly at the repository root. `scripts/` and `AUDIT-REPORT.md` remain at root, unaffected by the move. Every verification script passes.**

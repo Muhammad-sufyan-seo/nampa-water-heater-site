@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 import re, os, json
 
-BASE = "/home/user/nampa-water-heater-site/nampa-water-heater"
+BASE = "/home/user/nampa-water-heater-site"
 errors = []
 count = 0
 
 for root, dirs, files in os.walk(BASE):
-    if 'assets' in root:
-        continue
+    dirs[:] = [d for d in dirs if d not in ('.git', 'scripts', 'assets')]
     for fname in files:
         if not fname.endswith('.html'):
             continue

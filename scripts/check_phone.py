@@ -16,7 +16,7 @@ Phone-number verification script for Nampa Water Heater Pros.
 """
 import re, os
 
-BASE = "/home/user/nampa-water-heater-site/nampa-water-heater"
+BASE = "/home/user/nampa-water-heater-site"
 CORRECT_TEL_HREF = "tel:+12089875152"
 CORRECT_VISIBLE = "(208) 987-5152"
 CORRECT_SCHEMA_TEL = "+1-208-987-5152"
@@ -33,6 +33,7 @@ old_number_patterns = [
 
 all_files = []
 for root, dirs, files in os.walk(BASE):
+    dirs[:] = [d for d in dirs if d not in ('.git', 'scripts')]
     for fname in files:
         if fname.endswith(('.html', '.js', '.json', '.xml', '.txt', '.css')):
             all_files.append(os.path.join(root, fname))
