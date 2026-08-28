@@ -387,3 +387,89 @@ This surfaced a second, related bug: with `BASE` now set to the actual repo root
 | All scripts compile | ✅ All 9 files in `scripts/` (8 original + `check_phone.py`) pass `python3 -m py_compile` after the `BASE` path update |
 
 **Confirmed: `nampa-water-heater/` subfolder no longer exists. All website files (HTML, CSS, JS, images referenced by path, `sitemap.xml`, `robots.txt`) live directly at the repository root. `scripts/` and `AUDIT-REPORT.md` remain at root, unaffected by the move. Every verification script passes.**
+
+---
+
+## CLOUDFLARE WORKERS CONFIG (`wrangler.jsonc`) — INSPECTED AND FIXED
+
+**Change date:** 2026-08-28
+
+### Where the Config Actually Lived
+
+`main` had no `wrangler.toml` or `wrangler.jsonc` at all. Cloudflare's GitHub App had auto-generated one on a separate, never-merged branch — `cloudflare/workers-autoconfig` (commit `236f9a1`, authored by the `cloudflare-workers-and-pages[bot]`) — created *before* the directory-flatten work, so it still pointed at the old subfolder. Brought `wrangler.jsonc` and the companion `.gitignore` from that branch onto `main` via `git checkout origin/cloudflare/workers-autoconfig -- wrangler.jsonc .gitignore`, then fixed it in place.
+
+### BEFORE
+
+```jsonc
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "nampa-water-heater-site",
+  "compatibility_date": "2026-07-21",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "nampa-water-heater"
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}
+```
+
+### AFTER
+
+```jsonc
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "nampa-water-heater-site",
+  "compatibility_date": "2026-07-21",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "./"
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}
+```
+
+Only the `assets.directory` value changed. Other fields checked and confirmed already correct:
+- `name`: `"nampa-water-heater-site"` ✅ matches the repo name
+- `compatibility_date`: `"2026-07-21"` ✅ present and recent (about 5 weeks old at time of this audit)
+- No other field referenced the old `nampa-water-heater/` subfolder path
+
+### Real Bug Found During Dry-Run Validation: Missing `.assetsignore`
+
+Ran `npx wrangler deploy --dry-run` (wrangler auto-installed via `npx`, v4.127.0) — it resolved with no config errors both before and after the fix. But the dry-run's own output ("✨ Read 418 files from the assets directory") was suspiciously high for a 45-file site, which led to checking exactly what `directory: "./"` would sweep up. Confirmed by reading wrangler's own source (`createAssetsIgnoreFunction`) that its **default** ignore list only excludes `.assetsignore` itself, `_redirects`, and `_headers` — nothing else. Without an explicit `.assetsignore` file, deploying with `directory: "./"` would have published `.git/` (full commit history and objects), `.wrangler/` (local build cache), `scripts/` (internal Python dev tooling), `AUDIT-REPORT.md`, and `wrangler.jsonc` itself as publicly-served static assets alongside the real site.
+
+Added `.assetsignore` (same pattern syntax as `.gitignore`, confirmed via wrangler's source — it uses the same `ignore` matching library) excluding: `.git`, `.wrangler`, `.gitignore`, `wrangler.jsonc`, `scripts`, `AUDIT-REPORT.md`, `node_modules`.
+
+**Verified the fix actually works**, not just that the file exists: re-ran the dry-run with `WRANGLER_LOG=debug` (the correct verbosity env var — `--log-level` is not a valid flag on this wrangler version) and confirmed every excluded path is logged as `Ignoring asset: ...` during manifest construction — `.git/` (all ~250 internal objects/refs/logs), `.wrangler/`, `scripts/` (all 9 `.py` files), `AUDIT-REPORT.md`, and `wrangler.jsonc` were all correctly excluded from the upload manifest. Note: the "Read N files" summary line always reports the *raw pre-filter* directory scan count by design (confirmed in wrangler's source — the ignore function runs after that log line), so that number staying high is expected and not a sign the ignore file isn't working.
+
+### Dry-Run Result
+
+```
+✨ Read 418 files from the assets directory /home/user/nampa-water-heater-site
+Total Upload: 0.35 KiB / gzip: 0.25 KiB
+No bindings found.
+--dry-run: exiting now.
+```
+
+✅ Config resolves without errors. No deploy was performed (dry-run only, per instructions).
+
+### Verification Summary
+
+| Check | Result |
+|---|---|
+| `wrangler.jsonc` exists on `main` | ✅ (brought over from the `cloudflare/workers-autoconfig` bot branch, was previously unmerged) |
+| `assets.directory` | ✅ Fixed: `"nampa-water-heater"` → `"./"` |
+| `name` field | ✅ Already correct: `"nampa-water-heater-site"` |
+| `compatibility_date` | ✅ Already present and recent: `"2026-07-21"` |
+| Other stale path references | ✅ None found |
+| `npx wrangler deploy --dry-run` | ✅ Resolves with no errors |
+| `.assetsignore` excludes dev/VCS files from the public deploy | ✅ Added and verified via debug-log manifest inspection — `.git`, `.wrangler`, `scripts/`, `AUDIT-REPORT.md`, `wrangler.jsonc` all correctly excluded |
+
+**`wrangler.jsonc` now correctly serves the flattened site from the repository root, without exposing git internals or dev tooling as public static assets.**
