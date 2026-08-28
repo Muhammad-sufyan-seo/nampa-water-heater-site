@@ -290,3 +290,56 @@ Two of these (`build_areas_hub.py`, `build_symptoms.py`) imported shared code vi
 | Build scripts | ✅ Relocated to `/scripts/`, all 8 compile and run correctly from the new location, portability bug (hardcoded scratchpad import path) fixed in 2 scripts |
 
 **Result: the site is fully entity-consistent, cleaned up, and ready to merge to `main` for Cloudflare Pages deployment.**
+
+---
+
+## PHONE NUMBER FULL-SITE AUDIT
+
+**Audit date:** 2026-08-27 (third pass)
+
+Following the entity-consistency work, this pass specifically re-swept the entire codebase for any wrong or leftover phone number in any format, and enforced click-to-call correctness on every phone link.
+
+### Search Method
+
+Scanned all 33 files under `nampa-water-heater/` with an `.html`, `.js`, `.json`, `.xml`, `.txt`, or `.css` extension for: the original placeholder `(208) 555-0123` in every format (spaced, hyphenated, digits-only, `tel:` href); the Harrisburg reference number `(717) 470-0340` in every format; any `(208)` number that isn't `987-5152`; every `tel:` href value; every schema JSON-LD `telephone` field; `alt` text on images; meta tags (description, Open Graph); and every `<a>` tag carrying a "Call"-style `aria-label` or the phone SVG icon, to confirm none were missing their `href`.
+
+### Findings
+
+| # | Item | Where | Status |
+|---|---|---|---|
+| 1 | Original placeholder `(208) 555-0123` / `+12085550123` in any format | Whole codebase | ✅ Zero instances — already fully fixed in the prior audit pass, confirmed still holding |
+| 2 | Harrisburg reference number `(717) 470-0340` in any format | Whole codebase | ✅ Zero instances — never leaked into this build |
+| 3 | Any other `(208)` number besides `987-5152` | Whole codebase | ✅ Zero instances, with one reviewed non-issue: `contact.html:194` has `placeholder="(208) 555-0000"` on the contact form's `<input type="tel">` field. This is the visitor's own phone-number input, not a business-number reference — `555-0100`/`555-0000` is the standard NANP-reserved "fictional number" convention for form-field examples (the same role `jane@example.com` plays for the email field next to it). Confirmed correct, not changed. |
+| 4 | `tel:` href format consistency | All 29 pages, 187 links | ✅ All 187 were already exactly `tel:+12089875152` — zero variants, zero missing `+1`, zero stray spaces/dashes inside the href |
+| 5 | Schema JSON-LD `telephone` field format | 24 files with `LocalBusiness` schema | ⚠️ **Found and fixed**: all 24 used the visible format `"(208) 987-5152"` instead of the required international-dash format. Updated to `"+1-208-987-5152"` in all 24. |
+| 6 | `<a>` tags with a Call-style `aria-label` missing `href="tel:..."` | All 29 pages | ✅ Zero found |
+| 7 | `<a>` tags wrapping the phone SVG icon missing `href="tel:..."` | All 29 pages (141 phone-icon instances) | ✅ Zero found |
+| 8 | `alt` text mentioning a phone number | All images site-wide | ✅ None found (no image alt text references a phone number at all) |
+| 9 | Open Graph tags | Whole codebase | ℹ️ No `og:*` meta tags exist anywhere on the site (not introduced by this or prior passes) — nothing to check here; flagging as a separate potential future enhancement, out of scope for this phone-number task |
+| 10 | JS click interception on `tel:` links | `assets/js/main.js` | ✅ Reviewed the full 71-line file: the only `click` listeners are on the mobile-menu toggle button, the FAQ accordion buttons, and `a[href^="#"]` anchors for smooth-scroll (which explicitly cannot match `tel:` hrefs since they require a leading `#`). No `preventDefault()`, no interception of any kind touches phone links. |
+
+### Verification Script
+
+Added `scripts/check_phone.py` (new; complements `check_links.py` and `validate_schema.py`). It:
+1. Scans every file for the old-number patterns and confirms zero matches (excluding the confirmed-correct form placeholder).
+2. Confirms every `tel:` href equals exactly `tel:+12089875152`.
+3. Confirms every schema `telephone` field equals exactly `+1-208-987-5152`.
+4. Confirms every `<a>` tag with a Call-style `aria-label` or the phone icon has a `tel:` href.
+5. Reports total counts and a final PASS/FAIL verdict.
+
+---
+
+## PHONE NUMBER VERIFICATION — PASSED
+
+**Verified 2026-08-27 (`scripts/check_phone.py` output)**
+
+- **Files scanned:** 33 (`.html`, `.js`, `.json`, `.xml`, `.txt`, `.css` under `nampa-water-heater/`)
+- **Old/wrong phone number instances found:** 0
+- **Old/wrong phone number instances fixed:** 0 (none remained — the prior audit's fix held completely)
+- **Schema `telephone` field format issues found and fixed:** 24 (all converted from `(208) 987-5152` to `+1-208-987-5152`)
+- **Total clickable `tel:` links verified across the site:** 187, all exactly `href="tel:+12089875152"`
+- **Total phone-icon `<a>` elements checked for missing `href`:** 141, zero missing
+- **Total Call-labeled `<a>` elements checked for missing `href`:** all, zero missing
+- **JS click-interception check:** passed — no script touches or blocks `tel:` link behavior
+
+**Zero instances of any incorrect phone number remain anywhere on the site.** Every visible phone number reads exactly `(208) 987-5152`. Every clickable phone link uses `href="tel:+12089875152"` and will trigger native click-to-call on mobile with no JavaScript in the way. Every schema `telephone` field now uses the `+1-208-987-5152` international-dash format.
