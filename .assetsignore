@@ -1,0 +1,7 @@
+.git
+.wrangler
+.gitignore
+wrangler.jsonc
+scripts
+AUDIT-REPORT.md
+node_modules
