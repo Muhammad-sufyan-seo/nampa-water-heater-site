@@ -1063,6 +1063,32 @@ a:hover { color: var(--ember-dark); text-decoration: underline; }
 .breadcrumb-inner a:hover { color: var(--ember); }
 
 .breadcrumb-inner span { margin: 0 0.4rem; color: var(--steel); }
+.breadcrumb ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.breadcrumb li {
+  display: flex;
+  align-items: center;
+  font-size: 0.72rem;
+  font-family: 'Roboto Mono', monospace;
+  color: var(--slate);
+}
+.breadcrumb li + li::before {
+  content: "›";
+  margin: 0 0.4rem;
+  color: var(--steel);
+}
+.breadcrumb li a {
+  color: var(--slate);
+  text-decoration: none;
+}
+.breadcrumb li a:hover { color: var(--ember); }
+
 
 /* =====================
    PAGE HERO (inner pages)

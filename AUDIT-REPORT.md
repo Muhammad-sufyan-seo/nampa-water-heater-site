@@ -668,3 +668,84 @@ Additional checks specific to this pass:
 
 `rules/image-guidelines.md` §1 ("Current state") updated to reflect the new
 image library — it previously stated Nampa had no local image library at all.
+
+---
+
+## Phase 6 — URL Restructure, Internal Linking, Breadcrumbs, Canonicals, Sitemap/Robots/LLMs.txt (2026-08)
+
+### Research basis (Step 0)
+
+Local SEO industry consensus (Moz, Search Engine Journal, Search Engine Land, Whitespark, competitor analysis) confirms: **for a single-location local service business, including the city name and state abbreviation in URL slugs is standard practice and a meaningful local ranking signal**, even when the domain itself contains the city name. Key reasons:
+- URL slug is used as the clickable text in "blue link" SERPs — city name in slug reinforces geo-relevance to searchers scanning results.
+- Keyword-in-URL is a ranking factor per Google's own guidelines (PageRank document and Quality Rater Guidelines).
+- Competitor evidence: nampaplumbingrepair.com/water-heater-repair-nampa-id/, expressplumbingidaho.com/plumbing-nampa/water-heater-repair/ both follow this pattern.
+
+### URL format decided (Step 1)
+
+Pattern: `/{section}/{topic}-nampa-id.html`
+
+Full mapping (old → new, all 301 redirects implemented in `_redirects`):
+
+| Old URL | New URL |
+|---|---|
+| `/services/repair.html` | `/services/water-heater-repair-nampa-id.html` |
+| `/services/gas-repair.html` | `/services/gas-water-heater-repair-nampa-id.html` |
+| `/services/electric-repair.html` | `/services/electric-water-heater-repair-nampa-id.html` |
+| `/services/heat-pump-repair.html` | `/services/heat-pump-water-heater-repair-nampa-id.html` |
+| `/services/tankless-repair.html` | `/services/tankless-water-heater-repair-nampa-id.html` |
+| `/services/commercial-repair.html` | `/services/commercial-water-heater-repair-nampa-id.html` |
+| `/services/installation.html` | `/services/water-heater-installation-nampa-id.html` |
+| `/services/gas-installation.html` | `/services/gas-water-heater-installation-nampa-id.html` |
+| `/services/electric-installation.html` | `/services/electric-water-heater-installation-nampa-id.html` |
+| `/services/heat-pump-installation.html` | `/services/heat-pump-water-heater-installation-nampa-id.html` |
+| `/services/tankless-installation.html` | `/services/tankless-water-heater-installation-nampa-id.html` |
+| `/services/commercial-installation.html` | `/services/commercial-water-heater-installation-nampa-id.html` |
+| `/services/replacement.html` | `/services/water-heater-replacement-nampa-id.html` |
+| `/services/maintenance.html` | `/services/water-heater-maintenance-nampa-id.html` |
+| `/areas/index.html` | `/service-areas/index.html` |
+| `/areas/downtown-nampa.html` | `/service-areas/downtown-nampa.html` |
+| `/areas/central-nampa.html` | `/service-areas/central-nampa.html` |
+| `/areas/south-nampa.html` | `/service-areas/south-nampa.html` |
+| `/symptoms/leaking.html` | `/common-issues/water-heater-leaking-nampa-id.html` |
+| `/symptoms/no-hot-water.html` | `/common-issues/no-hot-water-nampa-id.html` |
+| `/symptoms/noise.html` | `/common-issues/water-heater-making-noise-nampa-id.html` |
+| `/symptoms/pilot-light.html` | `/common-issues/pilot-light-wont-stay-lit-nampa-id.html` |
+| `/symptoms/rusty-water.html` | `/common-issues/rusty-discolored-water-nampa-id.html` |
+| `/symptoms/breaker-tripping.html` | `/common-issues/water-heater-tripping-breaker-nampa-id.html` |
+
+### What changed (Steps 2–8)
+
+1. **24 files renamed/moved** — 14 service pages (new descriptive slugs with `-nampa-id` suffix), 4 area pages (`areas/` → `service-areas/`), 6 symptom pages (`symptoms/` → `common-issues/` + descriptive slugs).
+2. **`_redirects` created** — 24 rules, `301` format for Cloudflare Workers static-assets.
+3. **Internal linking rebuilt site-wide** — every nav, footer, body link, and CTA updated across all 29 pages to new URLs. Initial root-relative pass plus a follow-up fix for within-directory relative links (e.g., `href="repair.html"` inside a services page resolved to old filename).
+4. **Breadcrumbs on all 28 non-home pages** — converted from incorrect position (before `<main>`) to semantic `<nav aria-label="Breadcrumb"><ol><li>` pattern inside `<main>` after the page-hero `</section>`. All breadcrumbs use `aria-current="page"` on the final item.
+5. **BreadcrumbList JSON-LD** added to `<head>` of all 28 non-home pages, matching visible breadcrumb word-for-word.
+6. **Canonical tags updated** — self-referencing, pointing at exact new URLs. Verified all 29 match their physical file path.
+7. **`sitemap.xml` regenerated** — 29 entries (all new URLs), `<lastmod>2026-08-29</lastmod>`, priorities: 1.0 home, 0.9 services, 0.8 service-areas, 0.7 common-issues, 0.6 about/contact, 0.4 privacy/terms.
+8. **`robots.txt` rewritten** — `Disallow: /scripts/` and `Disallow: /rules/`; explicit `Allow: /` for GPTBot, ClaudeBot, PerplexityBot, Google-Extended, CCBot, anthropic-ai; `Sitemap:` directive.
+9. **`llms.txt` created** at site root — business name, phone, service area (Nampa ID, 83651/83686/83687 only), services list, brands list, key page URLs, explicit scope limits.
+10. **Breadcrumb CSS** extended — added `ol/li` display rules to `assets/css/style.css` for the new semantic markup.
+
+### Validation — all 5 scripts, clean run after Phase 6
+
+| Script | Result |
+|---|---|
+| `check_links.py` | ✅ 0 broken internal links |
+| `validate_schema.py` | ✅ 86/86 JSON-LD blocks valid |
+| `check_phone.py` | ✅ 187/187 tel: links correct, 24/24 schema telephone fields correct, 0 old numbers |
+| `check_h1.py` | ✅ 29/29 pages — exactly one H1, unique sitewide |
+| `check_faq_parity.py` | ✅ 25/25 FAQ-schema pages match visible text word-for-word |
+
+Additional checks:
+- Canonical verification: all 29 pages pass (canonical URL matches physical file path).
+- Sitemap coverage: 29 HTML pages = 29 sitemap entries, exact match.
+- Breadcrumb coverage: all 28 non-home pages have `aria-label="Breadcrumb"` HTML + `"BreadcrumbList"` JSON-LD schema.
+- Title uniqueness: 29 unique titles, 29 unique meta descriptions — no duplicates.
+
+### E-E-A-T (Step 9)
+
+- **About page**: Owner-confirmed claims (Since 2019, 9,000+ jobs, 60 min response, licensed/insured) — all consistent with `rules/verified-claims.md`.
+- **Contact page**: Phone, ZIP codes (83651/83686/83687), service hours, emergency note — all present.
+- **Privacy Policy + Terms**: Unique titles/descriptions, legal boilerplate complete.
+- **Every page**: unique `<title>` + `<meta name="description">` — confirmed by automated check above.
+- **No unverified claims** introduced in this phase.
