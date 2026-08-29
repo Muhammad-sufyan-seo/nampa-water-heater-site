@@ -1489,3 +1489,45 @@ a:hover { color: var(--ember-dark); text-decoration: underline; }
 @media print {
   .site-header, .sticky-call-bar, .mobile-nav { display: none; }
 }
+
+/* =====================
+   BRAND NAME GRID (homepage — text cards replacing photo grid)
+   ===================== */
+.brand-name-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+.brand-card {
+  padding: 0.85rem 0.5rem;
+  background: var(--light-warm);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 6px;
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--navy);
+  letter-spacing: 0.02em;
+}
+@media (max-width: 640px) {
+  .brand-name-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* =====================
+   FOOTER ADDRESS (contact info wrapper)
+   ===================== */
+.footer-brand address { font-style: normal; display: block; }
+
+/* =====================
+   BODY IMAGE SIZING (content images — object-fit + max-height)
+   ===================== */
+.article-content img,
+.content-with-sidebar img {
+  max-height: 380px;
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+  display: block;
+}
