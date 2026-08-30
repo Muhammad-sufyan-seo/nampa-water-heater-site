@@ -23,7 +23,15 @@ for filepath in all_files:
         path_part = href.split('#')[0]
         if not path_part:
             continue
-        resolved = os.path.normpath(os.path.join(dirpath, path_part))
+        # Site uses clean (extensionless) URLs: a trailing slash (or empty
+        # path) resolves to that directory's index.html; otherwise the
+        # path resolves to path + ".html" on disk (Cloudflare Workers
+        # static-assets serves /foo from foo.html).
+        if path_part.endswith('/'):
+            resolved = os.path.normpath(os.path.join(dirpath, path_part, 'index.html'))
+        else:
+            candidate = os.path.normpath(os.path.join(dirpath, path_part))
+            resolved = candidate if os.path.isfile(candidate) else candidate + '.html'
         if not os.path.isfile(resolved):
             broken.append((filepath, href, resolved))
 

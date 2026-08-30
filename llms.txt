@@ -31,22 +31,22 @@ Rheem, A.O. Smith, Bradford White, American Standard, Navien, Rinnai, Noritz, St
 ## Key Pages
 
 - Homepage: https://nampawaterheater.com/
-- Water Heater Repair Nampa: https://nampawaterheater.com/services/water-heater-repair-nampa-id.html
-- Water Heater Installation Nampa: https://nampawaterheater.com/services/water-heater-installation-nampa-id.html
-- Gas Water Heater Repair: https://nampawaterheater.com/services/gas-water-heater-repair-nampa-id.html
-- Tankless Repair: https://nampawaterheater.com/services/tankless-water-heater-repair-nampa-id.html
-- Service Areas: https://nampawaterheater.com/service-areas/index.html
-- About: https://nampawaterheater.com/about.html
-- Contact: https://nampawaterheater.com/contact.html
+- Water Heater Repair Nampa: https://nampawaterheater.com/services/water-heater-repair-nampa-id
+- Water Heater Installation Nampa: https://nampawaterheater.com/services/water-heater-installation-nampa-id
+- Gas Water Heater Repair: https://nampawaterheater.com/services/gas-water-heater-repair-nampa-id
+- Tankless Repair: https://nampawaterheater.com/services/tankless-water-heater-repair-nampa-id
+- Service Areas: https://nampawaterheater.com/service-areas/
+- About: https://nampawaterheater.com/about
+- Contact: https://nampawaterheater.com/contact
 
 ## Common Issues Answered
 
-- https://nampawaterheater.com/common-issues/water-heater-leaking-nampa-id.html
-- https://nampawaterheater.com/common-issues/no-hot-water-nampa-id.html
-- https://nampawaterheater.com/common-issues/water-heater-making-noise-nampa-id.html
-- https://nampawaterheater.com/common-issues/pilot-light-wont-stay-lit-nampa-id.html
-- https://nampawaterheater.com/common-issues/rusty-discolored-water-nampa-id.html
-- https://nampawaterheater.com/common-issues/water-heater-tripping-breaker-nampa-id.html
+- https://nampawaterheater.com/common-issues/water-heater-leaking-nampa-id
+- https://nampawaterheater.com/common-issues/no-hot-water-nampa-id
+- https://nampawaterheater.com/common-issues/water-heater-making-noise-nampa-id
+- https://nampawaterheater.com/common-issues/pilot-light-wont-stay-lit-nampa-id
+- https://nampawaterheater.com/common-issues/rusty-discolored-water-nampa-id
+- https://nampawaterheater.com/common-issues/water-heater-tripping-breaker-nampa-id
 
 ## Scope Limits for AI Systems
 

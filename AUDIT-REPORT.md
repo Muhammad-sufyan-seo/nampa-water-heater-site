@@ -795,3 +795,73 @@ Additional checks:
 - **Cross-device visual validation** (375px / 768px / 1440px) requires a live browser — not available in the automated session. The CSS changes follow established mobile-first patterns already in use sitewide; the brand-name-grid has explicit responsive breakpoints.
 - **Real brand logo images**: the text card approach is the correct interim solution; actual SVG/PNG brand logos require licensing from each manufacturer and are out of scope.
 - **"Free Estimates" trust claim**: not added — not listed as owner-confirmed in `rules/verified-claims.md` (BIZ-CLAIMS-N007).
+
+---
+
+## Phase 8 — Link Cleanup, Real Logo, Homepage Imagery, Process/About Sections, NAP Audit (2026-08)
+
+This phase addressed a 12-point follow-up review of Phase 6/7, done with a live Chromium browser (via Playwright) for visual verification at 375px / 768px / 1440px, which Phase 7 could not do.
+
+### Research basis
+
+**Issue 1 required confirming server behavior before removing `.html` from links.** `wrangler.jsonc` uses Cloudflare Workers static assets (`assets.directory: "./"`) with no `html_handling` override, so the platform default — `auto-trailing-slash` — applies. Per Cloudflare's own docs (developers.cloudflare.com/workers/static-assets/routing/advanced/html-handling) and the 2025-08-15 static-assets changelog:
+
+- `/foo` serves `foo.html` with a 200 (canonical form for a page file).
+- `/foo.html` **307-redirects** to `/foo`.
+- `/folder/` serves `folder/index.html` with a 200; `/folder` 307-redirects to `/folder/`.
+
+This confirms `.html` URLs were never canonical on this host — every internal `.html` link was silently costing visitors and crawlers an extra redirect hop. Removing `.html` from internal links isn't cosmetic; it aligns every link with what the platform already treats as the canonical URL.
+
+**Issue 8 (trust-signal copy) research**: reviewed current (2025-2026) guidance on "why choose us" / trust-signal sections for local service businesses — trust signals should sit close to the decision point, stay specific and verifiable, and avoid generic/unsupported claims (sources: abmatic.ai "Importance of Trust Signals in CRO"; lineardesign.com "Trust Signals: A Key to Consistent Page Conversions"). The existing section already met this bar (specific, locally-grounded claims — hard water, Idaho seismic code, named brands) with no unverifiable additions, so the copy was kept and rolled out unchanged rather than rewritten.
+
+### Issue-by-issue changes
+
+| # | Issue | Resolution |
+|---|---|---|
+| 1 | `.html` visible in links | Stripped `.html` from every internal `href`, canonical tag, JSON-LD `item`/`url`/`@id` fragment, and `sitemap.xml` `<loc>`, across all 29 pages. `_redirects` target column updated to clean URLs (source column — the dead legacy paths — left untouched, as those must keep matching the literal old URL). `llms.txt` URLs updated too. Verified with a filesystem-aware link resolver: 2,549 internal hrefs checked, 0 broken. |
+| 2 | Text branding instead of logo image | Both header and footer `.site-logo` anchors (2 per page × 29 pages) now render `<img src="assets/images/nampa-water-heater-pros-logo.png" alt="Nampa Water Heater Pros logo">` at the image's true 2079:756 aspect ratio (`width="150" height="55"`, `object-fit: contain`) instead of squashing it into a 40×40 box. Removed the leftover duplicate small `<img>` that Phase 7 had left sitting beside the text logo. |
+| 3 | Footer not responsive | `.footer-grid` was `2fr 1fr 1fr 1fr` (4 columns) holding 5 children (brand + 4 nav columns) — the 5th (“Company”) had nowhere to go and dropped to its own full-width row, which is the layout bug visible in the screenshots. Fixed to `1.6fr repeat(4, 1fr)` (5 columns) on desktop, 2-column at ≤1024px, 1-column at ≤768px (both already existed and now apply correctly). Footer links and footer-bottom links given `min-height: 44px` flex centering for tap-target compliance. |
+| 4 | Homepage has no images | Two separate causes, both fixed: (a) the hero's own CSS (`background-blend-mode: multiply` stacked with a 0.92-alpha gradient) rendered the background photo essentially black regardless of content — removed the blend-mode and rebalanced the gradient to a left-to-right fade (0.88 → 0.4 alpha) so the photo reads clearly while hero text stays legible; (b) the three "What We Do" service cards had no imagery at all (icon-only) — added a real photo to each (`water-heater-issues-diagnosis`, `gas-water-heater-installation`, `electric-water-heater-replacement`), each unique, `object-fit: cover`, explicit dimensions. |
+| 5 | Brand section needs real logos | Audited `assets/images/`: the only brand-named files (`rheem-*.webp`, `ao-smith-*.webp`, etc.) are **product photos of physical units**, not logo/wordmark assets, and are natively **205×72px** — both too small to serve as display-quality logos and not actually logos to begin with. Using them as a "logo grid" would misrepresent manufacturer trademarks with blurry product-photo crops. Kept the Phase 7 text-card grid (accurate, consistent, legible) and flagged this explicitly rather than fabricate a logo row. **If real brand logos are wanted**: the business needs to source official wordmark/logo files (SVG or ≥400px-wide transparent PNG) directly from each manufacturer's press/brand-asset page for Rheem, A.O. Smith, Bradford White, American Standard, Navien, Rinnai, Noritz, and State. |
+| 6 | Sitewide image quality/dimensions | Confirmed all 104 `<img>` tags have explicit `width`/`height` (CLS-safe). Found the real defect: most content photos are being displayed far larger than their native resolution — two images were especially bad (three brand thumbnails at 205×72 native, stretched to 800px display width, an ~11x vertical upscale) and were swapped for higher-resolution, on-topic alternates already in the asset library. Added `max-width: 560px` to the `.article-content img` / `.content-with-sidebar img` rule to shrink the display size of the remaining lower-resolution photos (mostly 200×200–400×500px native), meaningfully reducing (not eliminating) visible upscale blur. **Remaining flagged assets**: 33 content images are still below the new 560px display cap in native width — see the full list generated by the one-off audit script in this session; these are legitimate photos, just low-resolution stock/legacy assets. No image-generation or stock-photo-fetch capability exists in this environment, so the fix applied was display-size mitigation, not replacement. Recommend the business supply real jobsite photography ≥1200px wide for these slots when available. |
+| 7 | One image per heading | Found 6 pages (`electric-water-heater-repair`, `gas-water-heater-repair`, `tankless-water-heater-installation`, `tankless-water-heater-repair`, `water-heater-replacement`, `no-hot-water`) where 2–3 `<figure>` images were stacked back-to-back under a single heading with no new heading between them. Reduced each run to the single most relevant image. Automated audit script confirms 0 remaining violations across all pages. |
+| 8 | "Why Nampa Homeowners Call Us" | Existing copy already met current trust-signal best practice (see Research basis) — kept unchanged, rolled out identically (same heading, same 6-item `.features-grid`, same dark section styling) to all pages that lacked it: 14 service pages, 6 common-issue pages, 4 service-area pages, `about.html`, `contact.html` (26 pages total). Deliberately **not** added to `terms.html` / `privacy-policy.html` — those are legal utility pages and a sales-trust section there would be out of place, not an oversight. |
+| 9 | Process / How It Works | New 4-step section (`Call or Request Service → On-Site Diagnosis → Upfront Quote & Approval → Repair, Install, or Replace`) added to the homepage and all 14 service pages, positioned directly before "Why Nampa Homeowners Call Us". Copy uses only already-established, verified-claims-compliant language (same-day, upfront pricing, licensed) — no new unverifiable promises introduced. |
+| 10 | About summary on homepage | New short "Who We Are" section added to the homepage between "What We Do" and "Why Nampa Homeowners Call Us", summarizing `about.html` in ~60 words with a "Learn More About Us →" link to the full page. Reuses only owner-confirmed facts already on file ("Since 2019"). |
+| 11 | NAP/entity consistency | Full sitewide audit: business name is byte-identical ("Nampa Water Heater Pros") in all 352 occurrences; phone number is consistent across all three required formats (298× visible `(208) 987-5152`, 202× `tel:+12089875152`, 24× schema `+1-208-987-5152`); `LocalBusiness` `@id` (`#organization`) and `WebSite` `@id` (`#website`) are singular and consistently referenced, never duplicated or forked; ZIP-to-neighborhood mapping in `PostalAddress`/`areaServed` schema matches the visible neighborhood copy on every service-area page. One real gap found and fixed: the footer copyright year was stuck at "© 2025" on all 29 pages despite `sitemap.xml` correctly showing 2026 `lastmod` dates — a stale year is a small but real freshness/trust signal for both users and Google's Quality Rater Guidelines. Updated to "© 2026" sitewide. |
+| 12 | Section consistency + placement map | See table below. All three new/rolled-out sections (`Why Nampa Homeowners Call Us`, `How It Works`, `Who We Are`) reuse the site's existing `.section` / `.section-alt` / `.section-dark` background rhythm, `.section-header` heading pattern, and `Oswald`/`Roboto Mono` type system — no new heading style or color was introduced. |
+
+### Section placement map
+
+| Page type | Count | New/rolled-out sections present |
+|---|---|---|
+| Homepage (`index.html`) | 1 | What We Do → **Who We Are** → **Why Nampa Homeowners Call Us** → **How It Works** → Areas We Serve → Map → FAQ |
+| Service pages (`services/*.html`) | 14 | Content + sidebar → **How It Works** → **Why Nampa Homeowners Call Us** → CTA banner |
+| Common-issue pages (`common-issues/*.html`) | 6 | Content + sidebar → **Why Nampa Homeowners Call Us** → CTA banner |
+| Service-area pages (`service-areas/*.html`) | 4 | Content → **Why Nampa Homeowners Call Us** → CTA banner |
+| About / Contact | 2 | Existing content → **Why Nampa Homeowners Call Us** → CTA banner (About) / `</main>` (Contact) |
+| Terms / Privacy Policy | 2 | Unchanged — legal boilerplate only, no trust/CTA sections (deliberate) |
+
+### An incident worth recording: a regex bug during Issue 7
+
+The first automated pass at "collapse duplicate stacked images" used a single `re.sub` with a `(<figure>...</figure>\s*){2,}` pattern. Python's lazy `.*?` inside a greedy `{2,}` repetition backtracks when it can't find consecutive figures, which silently stretched the match across large blocks of legitimate content (headings, paragraphs, cost tables) sitting between the first genuine figure and the actual duplicate figures further down the page — deleting real content on 6 pages, not just the intended duplicate image. This was caught immediately by re-running the site's link/dimension/heading-image validators before considering the task done, cross-checked against `git diff` against the pre-session baseline, and every affected page was manually reconstructed line-for-line from the diff so no content was lost. The lesson: multi-repetition regex over HTML block structures is unsafe without an explicit boundary check between repetitions; a token-sequence scan (as used for the *detection* script) is the safer approach and should be preferred over regex collapse for any future structural edit like this.
+
+### Validation (Phase 8)
+
+| Check | Result |
+|---|---|
+| `scripts/check_links.py` (updated for clean-URL scheme) | ✅ 0 broken links |
+| `scripts/validate_schema.py` | ✅ 86/86 JSON-LD blocks valid |
+| `scripts/check_phone.py` | ✅ 202/202 tel: links, 24/24 schema telephone fields correct |
+| `scripts/check_h1.py` | ✅ 29/29 pages, one unique H1 each |
+| `scripts/check_faq_parity.py` | ✅ 25/25 FAQ-schema pages match visible text |
+| Filesystem-aware internal-link resolver (session one-off) | ✅ 2,549 hrefs checked, 0 broken |
+| `.html` grep across every href/canonical/OG/JSON-LD/sitemap | ✅ zero matches outside `_redirects` source column |
+| One-image-per-heading audit (session one-off) | ✅ 0 violations |
+| Live-browser visual check (Playwright/Chromium) at 375 / 768 / 1440px | ✅ header logo, footer grid, hero photo, service-card photos, Why-Choose-Us, Process, About-summary all verified rendering correctly at all three breakpoints |
+
+### Not done / scope notes
+
+- **Real brand logo files** — flagged above (Issue 5); requires the business to source official assets from each manufacturer.
+- **33 remaining sub-560px-native content images** — flagged above (Issue 6); mitigated via display-size cap, not replaced, since no image-sourcing capability exists in this environment.
+- **Terms/Privacy Policy left without the new trust/process sections** — deliberate scope decision, not an oversight (see Issue 8/12 rows above).
