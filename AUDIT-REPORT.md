@@ -749,3 +749,49 @@ Additional checks:
 - **Privacy Policy + Terms**: Unique titles/descriptions, legal boilerplate complete.
 - **Every page**: unique `<title>` + `<meta name="description">` — confirmed by automated check above.
 - **No unverified claims** introduced in this phase.
+
+---
+
+## Phase 7 — Branding, Trust Bar, Brand Logos & Image Optimization (2026-08)
+
+### What changed
+
+1. **Removed orange hexagon `.logo-mark` icon from header and footer on all 29 pages.**
+   The placeholder SVG badge was replaced with clean text-only branding — the `.logo-text` div (Oswald font, "Nampa Water Heater Pros" + subtitle) remains. The small `nampa-water-heater-pros-logo.png` in the footer brand block is unchanged.
+
+2. **Footer semantic HTML refactored — all 29 pages.**
+   - Each footer navigation column (`<div class="footer-col">`) now has its `<ul>` wrapped in `<nav aria-label="{column heading}">` (e.g. `<nav aria-label="Repair Services">`).
+   - The footer phone link is wrapped in `<address>` (correct semantic element for contact info).
+   - `<footer>`, `<ul>/<li>` structure was already correct; these two additions complete the semantic markup.
+
+3. **Homepage trust bar merged — `index.html` only.**
+   - The homepage hero previously had TWO trust-signal bars: a `.stat-bar` (Since 2019 | 9,000+ | 60 min | Licensed & Insured) and a separate `.trust-signals` div (Same-Day Availability | Licensed & Insured | Serving All of Nampa | Upfront Pricing). This duplicated "Licensed & Insured" and added "Same-Day" as a third occurrence (already in the eyebrow and hero-card).
+   - Removed: the `.trust-signals` div entirely.
+   - Removed: the "Same-Day Service Available · Upfront Pricing" footnote in the hero-card.
+   - Result: one clean stat-bar with 4 owner-confirmed/unverified-but-live claims.
+
+4. **Homepage brand grid replaced — `index.html` only.**
+   - The `.brand-image-grid` (8 water-heater product photos) replaced with `.brand-name-grid` — 8 clean text cards (Rheem, A.O. Smith, Bradford White, American Standard, Navien, Rinnai, Noritz, State).
+   - Layout: 4-col desktop / 2-col mobile (`@media (max-width: 640px)`).
+   - Rationale: the photos were product images, not brand logos. Text cards are more accurate and visually cleaner for a "brands we service" callout.
+
+5. **Image optimization CSS added (`assets/css/style.css`).**
+   - `.article-content img, .content-with-sidebar img`: `object-fit: cover; max-height: 380px` — caps body content images at 380px tall; prevents oversized portrait photos from dominating layouts.
+   - `.footer-brand address { font-style: normal; }` — prevents browser default italic on `<address>`.
+   - `.brand-name-grid` and `.brand-card` — new CSS for the brand text card grid.
+
+### Validation
+
+| Check | Result |
+|---|---|
+| `check_links.py` | ✅ 0 broken internal links |
+| `validate_schema.py` | ✅ 86/86 JSON-LD blocks valid |
+| `check_phone.py` | ✅ 187/187 tel: links correct |
+| `check_h1.py` | ✅ 29/29 pages — exactly one H1, unique |
+| `check_faq_parity.py` | ✅ 25/25 FAQ-schema pages match visible text |
+
+### Not done / scope notes
+
+- **Cross-device visual validation** (375px / 768px / 1440px) requires a live browser — not available in the automated session. The CSS changes follow established mobile-first patterns already in use sitewide; the brand-name-grid has explicit responsive breakpoints.
+- **Real brand logo images**: the text card approach is the correct interim solution; actual SVG/PNG brand logos require licensing from each manufacturer and are out of scope.
+- **"Free Estimates" trust claim**: not added — not listed as owner-confirmed in `rules/verified-claims.md` (BIZ-CLAIMS-N007).
