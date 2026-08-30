@@ -87,14 +87,17 @@ a:hover { color: var(--ember-dark); text-decoration: underline; }
 }
 
 .site-logo {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.6rem;
   text-decoration: none;
+  background: var(--white);
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
 }
 
 .site-logo-img {
-  height: 44px;
+  height: 40px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -1519,6 +1522,8 @@ a:hover { color: var(--ember-dark); text-decoration: underline; }
   h2 { font-size: 1.5rem; }
   .header-cta { display: none; }
   .cost-table { display: block; overflow-x: auto; white-space: nowrap; }
+  .site-logo { padding: 0.3rem 0.55rem; }
+  .site-logo-img { height: 32px; }
 }
 
 /* Print */
@@ -1527,7 +1532,7 @@ a:hover { color: var(--ember-dark); text-decoration: underline; }
 }
 
 /* =====================
-   BRAND NAME GRID (homepage — text cards replacing photo grid)
+   BRAND LOGO GRID (homepage — real brand logo images)
    ===================== */
 .brand-name-grid {
   display: grid;
@@ -1536,16 +1541,20 @@ a:hover { color: var(--ember-dark); text-decoration: underline; }
   margin-top: 1.5rem;
 }
 .brand-card {
-  padding: 0.85rem 0.5rem;
-  background: var(--light-warm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0.75rem;
+  background: var(--white);
   border: 1px solid rgba(0,0,0,0.08);
   border-radius: 6px;
-  text-align: center;
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: var(--navy);
-  letter-spacing: 0.02em;
+}
+.brand-card img {
+  max-width: 100%;
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
 @media (max-width: 640px) {
   .brand-name-grid { grid-template-columns: repeat(2, 1fr); }

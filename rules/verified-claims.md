@@ -262,3 +262,46 @@ inspection / tankless descaling intervals
   price ranges — same open item as `BIZ-CLAIMS-N007`'s unconfirmed rows
 - **Review trigger:** Any price change on an owning page
 - **Date checked:** 2026-08-28
+
+---
+
+### `BIZ-MODEL-N009` — Business model: direct service provider, not a referral/lead-gen service
+
+- **Exact claim:** "Nampa Water Heater Pros IS a local water heater company
+  that provides repair, installation, and replacement services directly,
+  through its own licensed, insured technicians" — as opposed to the
+  site's prior copy, which described the business as a lead-generation /
+  referral service that connects homeowners with independent third-party
+  professionals it does not employ.
+- **Classification:** Business-controlled (core business-model fact)
+- **Status:** `Owner-confirmed`
+- **Publication permission:** Permitted sitewide, including in `terms.html`
+  and `privacy-policy.html`, which were rewritten to match (see note below)
+- **Owner-confirmation record:** User explicitly confirmed via
+  `AskUserQuestion` in this session ("Real model change — update
+  everywhere") that this is an actual business-model change, not a
+  copywriting-tone request, and asked for marketing copy AND legal-page
+  language to be updated consistently to reflect it.
+- **What changed:** Removed "we connect you with licensed
+  professionals/technicians" framing from `index.html`, `about.html`
+  (body copy, meta description, AboutPage schema, FAQ schema + visible
+  FAQ), `contact.html`, `services/water-heater-repair-nampa-id.html`,
+  `services/water-heater-installation-nampa-id.html`. Rewrote
+  `terms.html` §"Nature of Our Service" (previously stated "we are not a
+  licensed plumbing contractor... professionals we refer are independent
+  contractors") and `privacy-policy.html`'s data-use/data-sharing
+  sections (previously described sharing customer data with external
+  "service providers" fulfilling referred jobs).
+- **Limitations/conditions:** `terms.html` and `privacy-policy.html` are
+  binding legal documents. This rewrite removes the factual
+  contradiction with the new business-model claim, but it is **not a
+  substitute for review by a licensed Idaho attorney** before the business
+  relies on this language in production — liability, warranty, and
+  licensing-disclosure clauses for a direct-provider trade business
+  are a different (and more consequential) legal posture than a
+  referral service's, and should be drafted/reviewed accordingly.
+- **Review trigger:** Any further change to how the business actually
+  operates (e.g. if it reverts to using subcontracted/independent
+  technicians for some jobs), or before the business treats this
+  session's Terms/Privacy rewrite as final without attorney review.
+- **Date checked:** 2026-08-30
