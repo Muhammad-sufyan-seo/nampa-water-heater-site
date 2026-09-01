@@ -31,7 +31,15 @@ for filepath in all_files:
             resolved = os.path.normpath(os.path.join(dirpath, path_part, 'index.html'))
         else:
             candidate = os.path.normpath(os.path.join(dirpath, path_part))
-            resolved = candidate if os.path.isfile(candidate) else candidate + '.html'
+            if os.path.isfile(candidate):
+                resolved = candidate
+            elif os.path.isfile(candidate + '.html'):
+                resolved = candidate + '.html'
+            elif os.path.isfile(os.path.join(candidate, 'index.html')):
+                # Directory hub pages served via Worker fallback (e.g. /services → services/index.html)
+                resolved = os.path.join(candidate, 'index.html')
+            else:
+                resolved = candidate + '.html'
         if not os.path.isfile(resolved):
             broken.append((filepath, href, resolved))
 
