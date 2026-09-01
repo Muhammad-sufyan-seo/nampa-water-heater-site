@@ -25,22 +25,36 @@ export default {
       return Response.redirect(canonical.toString(), 301);
     }
 
-    // Try to serve the request from static assets
-    const response = await env.ASSETS.fetch(request);
-
-    // If ASSETS returns 404 for a path without trailing slash,
-    // try serving it as a directory index (e.g., /services → services/index.html)
-    if (response.status === 404 && !pathname.endsWith('/')) {
-      const indexRequest = new Request(
-        new URL(pathname + '/', url).toString(),
-        { method: request.method, headers: request.headers }
-      );
-      const indexResponse = await env.ASSETS.fetch(indexRequest);
-      if (indexResponse.status === 200) {
-        return indexResponse;
-      }
+    // With html_handling: "none", ASSETS serves files by exact path only (no auto-redirects).
+    // Try the bare path first — handles non-HTML assets (CSS, images, fonts, etc.)
+    // and the homepage / (ASSETS always serves index.html at the root).
+    const assetResponse = await env.ASSETS.fetch(request);
+    if (assetResponse.status !== 404) {
+      return assetResponse;
     }
 
-    return response;
+    // Clean URL → .html file on disk: /about → about.html
+    const htmlResponse = await env.ASSETS.fetch(
+      new Request(new URL(pathname + '.html', url).toString(), {
+        method: request.method,
+        headers: request.headers,
+      })
+    );
+    if (htmlResponse.status === 200) {
+      return htmlResponse;
+    }
+
+    // Hub/directory pages: /services → services/index.html
+    const indexResponse = await env.ASSETS.fetch(
+      new Request(new URL(pathname + '/index.html', url).toString(), {
+        method: request.method,
+        headers: request.headers,
+      })
+    );
+    if (indexResponse.status === 200) {
+      return indexResponse;
+    }
+
+    return assetResponse; // 404
   },
 };
