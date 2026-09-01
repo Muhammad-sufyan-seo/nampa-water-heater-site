@@ -2,11 +2,13 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "nampa-water-heater-site",
   "compatibility_date": "2026-07-21",
+  "main": "src/worker.js",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "directory": "./"
+    "directory": "./",
+    "exclude": ["src/**", "scripts/**", "rules/**", "node_modules/**"]
   },
   "compatibility_flags": [
     "nodejs_compat"
