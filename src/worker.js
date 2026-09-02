@@ -8,8 +8,23 @@ const NOT_FOUND_BODY =
 function notFound() {
   return new Response(NOT_FOUND_BODY, {
     status: 404,
-    headers: { 'content-type': 'text/html; charset=utf-8' },
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+      'cache-control': 'no-store',
+    },
   });
+}
+
+// Best-effort purge of any stale edge-cached response for this exact URL
+// (e.g. a .html page cached from before this routing existed). This only
+// clears the cache in the colo handling the current request, not globally —
+// a full purge still requires the Cloudflare dashboard or API.
+async function purgeEdgeCache(request) {
+  try {
+    await caches.default.delete(request);
+  } catch (_) {
+    // Cache API unavailable in this runtime — ignore.
+  }
 }
 
 async function route(request, env) {
@@ -18,6 +33,7 @@ async function route(request, env) {
 
   // Block .html URL requests — return 404 so old .html paths never redirect
   if (pathname.endsWith('.html')) {
+    await purgeEdgeCache(request);
     return notFound();
   }
 
