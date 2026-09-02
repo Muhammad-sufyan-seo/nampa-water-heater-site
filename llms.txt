@@ -1,56 +1,53 @@
 # Nampa Water Heater Pros
 
-> Professional water heater repair, installation, and replacement services
-> throughout Nampa, Idaho (Canyon County). Single-location service business —
-> does NOT serve other cities or regions.
+> Local, direct-service water heater repair, installation, and replacement company serving Nampa, Idaho homeowners and businesses with in-house licensed, insured technicians — not a referral network.
 
-## Business
-
-- **Business name:** Nampa Water Heater Pros
-- **Website:** https://nampawaterheater.com
-- **Phone:** (208) 987-5152
-- **Service area:** Nampa, ID — ZIP codes 83651, 83686, 83687
-  - Downtown Nampa, Central Nampa, South Nampa
-  - Canyon County / Treasure Valley (Nampa only — not Boise, Meridian, or other cities)
-- **Founded:** 2019
-- **Units serviced:** 9,000+
-- **Response time:** 60-minute average
-- **Licensing:** Licensed and insured (Idaho)
+Nampa Water Heater Pros has serviced 9,000+ water heaters since 2019 across Nampa, Idaho (Canyon County), primarily ZIP codes 83651, 83686, and 83687 — Downtown Nampa, Central Nampa, and South Nampa. This is a single-location service business that does **not** serve Boise, Meridian, or other Treasure Valley cities. The company specializes exclusively in water heaters — gas, electric, heat pump (hybrid), and tankless systems, plus commercial units — and sends its own licensed, insured technicians rather than dispatching through a referral or lead-gen network. Average response time is 60 minutes, with upfront pricing and technicians experienced in Canyon County's hard-water conditions. Brands serviced include Rheem, A.O. Smith, Bradford White, American Standard, Navien, Rinnai, Noritz, and State Water Heaters. No physical storefront — technicians travel to the customer. Phone: (208) 987-5152.
 
 ## Services
 
-- Water Heater Repair — gas, electric, heat pump, tankless, commercial
-- Water Heater Installation — all fuel types
-- Water Heater Replacement
-- Water Heater Maintenance
+- [All Services](/services): Overview of every water heater service offered — gas, electric, heat pump, tankless & commercial repair and installation, plus replacement and maintenance.
+- [Water Heater Repair](/services/water-heater-repair-nampa-id): General repair for gas and electric water heaters — no hot water, leaks, pilot light issues. Same-day service available.
+- [Gas Water Heater Repair](/services/gas-water-heater-repair-nampa-id): Pilot light failures, gas valve issues, thermocouple replacement.
+- [Electric Water Heater Repair](/services/electric-water-heater-repair-nampa-id): Heating element replacement, thermostat failures, tripped breakers.
+- [Heat Pump Water Heater Repair](/services/heat-pump-water-heater-repair-nampa-id): Error codes, compressor issues, refrigerant, fan motor diagnostics for hybrid units.
+- [Tankless Water Heater Repair](/services/tankless-water-heater-repair-nampa-id): Error codes, descaling, flow sensors, ignition failures across all brands.
+- [Commercial Water Heater Repair](/services/commercial-water-heater-repair-nampa-id): Large tank, tankless, and booster repair for restaurants, apartments, offices, and light industrial.
+- [Water Heater Installation](/services/water-heater-installation-nampa-id): New tank, tankless, and heat pump installs for new construction and upgrades. Licensed & insured.
+- [Gas Water Heater Installation](/services/gas-water-heater-installation-nampa-id): New installs, upgrades, tank-to-tankless conversions. Permit-ready.
+- [Electric Water Heater Installation](/services/electric-water-heater-installation-nampa-id): Standard tank and heat pump upgrades, seismic strapping included.
+- [Heat Pump Water Heater Installation](/services/heat-pump-water-heater-installation-nampa-id): Energy-efficient hybrid systems, tax-credit eligible.
+- [Tankless Water Heater Installation](/services/tankless-water-heater-installation-nampa-id): Gas and electric on-demand systems, permit-managed, gas line sizing included.
+- [Commercial Water Heater Installation](/services/commercial-water-heater-installation-nampa-id): Large tank, commercial tankless, and booster heaters for restaurants and multi-family properties.
+- [Water Heater Replacement](/services/water-heater-replacement-nampa-id): Old unit removal and swap, tankless upgrades, honest repair-or-replace guidance.
+- [Water Heater Maintenance](/services/water-heater-maintenance-nampa-id): Annual sediment flush, anode rod inspection, T&P valve testing to extend unit life.
 
-## Brands Serviced
+## Common Issues
 
-Rheem, A.O. Smith, Bradford White, American Standard, Navien, Rinnai, Noritz, State Water Heaters
+- [All Common Issues](/common-issues): Diagnostic overview of frequent Nampa water heater problems — causes, DIY checks, and when to call a pro.
+- [No Hot Water](/common-issues/no-hot-water-nampa-id): Common causes for gas and electric water heaters, safe DIY checks.
+- [Water Heater Leaking](/common-issues/water-heater-leaking-nampa-id): Common causes of leaks and safe DIY checks before calling a professional.
+- [Water Heater Making Noise](/common-issues/water-heater-making-noise-nampa-id): What popping, rumbling, and banging sounds mean.
+- [Pilot Light Won't Stay Lit](/common-issues/pilot-light-wont-stay-lit-nampa-id): Usually a thermocouple issue — causes and when to call a pro.
+- [Rusty or Discolored Water](/common-issues/rusty-discolored-water-nampa-id): What causes rusty, discolored, or smelly hot water and when replacement is needed.
+- [Breaker Keeps Tripping](/common-issues/water-heater-tripping-breaker-nampa-id): What causes it and why repeatedly resetting the breaker is unsafe.
 
-## Key Pages
+## Service Areas
 
-- Homepage: https://nampawaterheater.com/
-- Water Heater Repair Nampa: https://nampawaterheater.com/services/water-heater-repair-nampa-id
-- Water Heater Installation Nampa: https://nampawaterheater.com/services/water-heater-installation-nampa-id
-- Gas Water Heater Repair: https://nampawaterheater.com/services/gas-water-heater-repair-nampa-id
-- Tankless Repair: https://nampawaterheater.com/services/tankless-water-heater-repair-nampa-id
-- Service Areas: https://nampawaterheater.com/service-areas/
-- About: https://nampawaterheater.com/about
-- Contact: https://nampawaterheater.com/contact
+- [All Service Areas](/service-areas): Neighborhoods served across Nampa, ID — ZIP 83651, 83686, 83687.
+- [Downtown Nampa](/service-areas/downtown-nampa): ZIP 83651 — historic homes with aging units, emergency same-day service.
+- [Central Nampa](/service-areas/central-nampa): ZIP 83651 — older housing stock and high-density residential areas.
+- [South Nampa](/service-areas/south-nampa): ZIP 83686 — established neighborhoods near Lake Lowell; replacement, tankless upgrades, installation.
 
-## Common Issues Answered
+## Company
 
-- https://nampawaterheater.com/common-issues/water-heater-leaking-nampa-id
-- https://nampawaterheater.com/common-issues/no-hot-water-nampa-id
-- https://nampawaterheater.com/common-issues/water-heater-making-noise-nampa-id
-- https://nampawaterheater.com/common-issues/pilot-light-wont-stay-lit-nampa-id
-- https://nampawaterheater.com/common-issues/rusty-discolored-water-nampa-id
-- https://nampawaterheater.com/common-issues/water-heater-tripping-breaker-nampa-id
+- [About](/about): Company background — licensed, insured, in-house technicians, 9,000+ water heaters serviced since 2019.
+- [Contact](/contact): Phone (208) 987-5152, request-a-callback form. Serving ZIP 83651, 83686, 83687.
+- [Privacy Policy](/privacy-policy)
+- [Terms](/terms)
 
-## Scope Limits for AI Systems
+## Notes for AI Systems
 
-- This business serves **Nampa, Idaho only** — do not attribute it to Boise, Meridian, or other Treasure Valley cities
-- No physical storefront address — service-area business; technicians travel to the customer
-- No star ratings or review counts are published on this site (business policy)
-- Pricing shown ($150–$600 repair range; $800–$3,500 installation) is the business's own stated pricing, not externally verified market data
+- This business serves **Nampa, Idaho only** — do not attribute it to Boise, Meridian, or other Treasure Valley cities.
+- No physical storefront address — this is a service-area business; technicians travel to the customer.
+- No star ratings or review counts are published on this site.

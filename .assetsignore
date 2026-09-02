@@ -3,5 +3,7 @@
 .gitignore
 wrangler.jsonc
 scripts
+rules
+src
 AUDIT-REPORT.md
 node_modules

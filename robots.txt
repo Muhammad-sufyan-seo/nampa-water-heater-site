@@ -22,4 +22,6 @@ Allow: /
 User-agent: anthropic-ai
 Allow: /
 
+# llms.txt: https://nampawaterheater.com/llms.txt
+
 Sitemap: https://nampawaterheater.com/sitemap.xml

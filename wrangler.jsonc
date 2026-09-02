@@ -8,9 +8,9 @@
   },
   "assets": {
     "directory": "./",
+    "binding": "ASSETS",
     "html_handling": "none",
-    "run_worker_first": true,
-    "exclude": ["src/**", "scripts/**", "rules/**", "node_modules/**"]
+    "run_worker_first": true
   },
   "compatibility_flags": [
     "nodejs_compat"
