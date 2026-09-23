@@ -1,3 +1,23 @@
+/**
+ * Cloudflare Worker + Static Assets router for nampawaterheater.com
+ *
+ * Contract:
+ *   /                -> index.html                       (200)
+ *   /about           -> about.html                       (200)
+ *   /services        -> services/index.html              (200)
+ *   /assets/x.css    -> assets/x.css                     (200)
+ *   /about.html      -> 404 (never redirect)
+ *   /services/       -> 301 -> /services
+ *   www.<host>/x     -> 301 -> <host>/x
+ *
+ * Asset resolution is fully explicit. `html_handling` is set to "none" in
+ * wrangler.jsonc, so ASSETS serves a file only at its literal path and performs
+ * no index/extension rewriting of its own. Every candidate path is therefore
+ * constructed here. Do not reintroduce a dependency on ASSETS rewriting.
+ */
+
+const CANONICAL_HOST = 'nampawaterheater.com';
+
 const NOT_FOUND_BODY =
   '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>404 Not Found</title>' +
   '<meta name="robots" content="noindex"></head>' +
@@ -15,66 +35,65 @@ function notFound() {
   });
 }
 
-// Best-effort purge of any stale edge-cached response for this exact URL
-// (e.g. a .html page cached from before this routing existed). This only
-// clears the cache in the colo handling the current request, not globally —
-// a full purge still requires the Cloudflare dashboard or API.
-async function purgeEdgeCache(request) {
-  try {
-    await caches.default.delete(request);
-  } catch (_) {
-    // Cache API unavailable in this runtime — ignore.
+/**
+ * Fetch one asset path from the ASSETS binding.
+ * Builds the target by assigning `pathname` on a same-origin URL rather than
+ * resolving a relative string: `new URL('/' + '/index.html', base)` parses as a
+ * protocol-relative URL and silently retargets a different host.
+ */
+function assetRequest(url, path, request) {
+  const target = new URL(url.toString());
+  target.pathname = path;
+  return new Request(target.toString(), {
+    method: request.method,
+    headers: request.headers,
+  });
+}
+
+/** Candidate on-disk paths for a clean URL, in resolution order. */
+function candidatePaths(pathname) {
+  if (pathname === '/') {
+    return ['/index.html'];
   }
+  return [
+    pathname,                    // exact file: css, js, images, robots.txt, sitemap.xml
+    pathname + '.html',          // clean page URL: /about -> about.html
+    pathname + '/index.html',    // hub/directory: /services -> services/index.html
+  ];
 }
 
 async function route(request, env) {
   const url = new URL(request.url);
+
+  // Canonical host: www -> apex, preserving path and query.
+  if (url.hostname === 'www.' + CANONICAL_HOST) {
+    const canonical = new URL(url.toString());
+    canonical.hostname = CANONICAL_HOST;
+    return Response.redirect(canonical.toString(), 301);
+  }
+
   const pathname = url.pathname;
 
-  // Block .html URL requests — return 404 so old .html paths never redirect
+  // Old .html paths must 404, never redirect.
   if (pathname.endsWith('.html')) {
-    await purgeEdgeCache(request);
     return notFound();
   }
 
-  // Redirect trailing-slash paths to no-trailing-slash (except homepage /)
+  // Trailing slash -> no trailing slash, except the homepage.
   if (pathname.length > 1 && pathname.endsWith('/')) {
-    const canonical = new URL(url);
+    const canonical = new URL(url.toString());
     canonical.pathname = pathname.slice(0, -1);
     return Response.redirect(canonical.toString(), 301);
   }
 
-  // With html_handling: "none", ASSETS serves files by exact path only (no auto-redirects).
-  // Try the bare path first — handles non-HTML assets (CSS, images, fonts, robots.txt,
-  // sitemap.xml, etc.) and the homepage / (ASSETS always serves index.html at the root).
-  const assetResponse = await env.ASSETS.fetch(request);
-  if (assetResponse.status !== 404) {
-    return assetResponse;
+  for (const path of candidatePaths(pathname)) {
+    const response = await env.ASSETS.fetch(assetRequest(url, path, request));
+    if (response.status === 200) {
+      return response;
+    }
   }
 
-  // Clean URL → .html file on disk: /about → about.html
-  const htmlResponse = await env.ASSETS.fetch(
-    new Request(new URL(pathname + '.html', url).toString(), {
-      method: request.method,
-      headers: request.headers,
-    })
-  );
-  if (htmlResponse.status === 200) {
-    return htmlResponse;
-  }
-
-  // Hub/directory pages: /services → services/index.html
-  const indexResponse = await env.ASSETS.fetch(
-    new Request(new URL(pathname + '/index.html', url).toString(), {
-      method: request.method,
-      headers: request.headers,
-    })
-  );
-  if (indexResponse.status === 200) {
-    return indexResponse;
-  }
-
-  return assetResponse; // 404
+  return notFound();
 }
 
 export default {
@@ -82,13 +101,18 @@ export default {
     try {
       return await route(request, env);
     } catch (err) {
-      // Never let a routing bug surface as a raw platform 500 — degrade to a
-      // direct asset fetch so search-engine crawlers still get a valid response.
+      // A routing bug must not surface as a platform 500. Serve the homepage
+      // asset directly if we can; otherwise a clean 404.
       try {
-        return await env.ASSETS.fetch(request);
+        const url = new URL(request.url);
+        const response = await env.ASSETS.fetch(assetRequest(url, '/index.html', request));
+        if (response.status === 200) {
+          return response;
+        }
       } catch (_) {
-        return notFound();
+        // fall through
       }
+      return notFound();
     }
   },
 };
