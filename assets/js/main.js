@@ -1,3 +1,4 @@
+/* patched-for-upload-v1 */
 /**
  * NampaWaterHeater.com — Main JavaScript
  * Handles: mobile nav toggle, FAQ accordion, active nav state
