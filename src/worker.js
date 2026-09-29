@@ -18,6 +18,24 @@
 
 const CANONICAL_HOST = 'nampawaterheater.com';
 
+/**
+ * Extensions that identify static asset files.
+ * Requests for these must go directly to ASSETS — no .html or /index.html
+ * fallback — so a missing asset returns a genuine 404, never HTML.
+ */
+const STATIC_EXTS = new Set([
+  '.css', '.js', '.mjs',
+  '.png', '.jpg', '.jpeg', '.webp', '.svg', '.ico', '.gif',
+  '.woff', '.woff2', '.ttf', '.eot',
+  '.json', '.webmanifest', '.xml', '.txt', '.pdf',
+  '.mp4', '.webm', '.mp3', '.ogg',
+]);
+
+function hasStaticExtension(pathname) {
+  const dot = pathname.lastIndexOf('.');
+  return dot !== -1 && STATIC_EXTS.has(pathname.slice(dot).toLowerCase());
+}
+
 const NOT_FOUND_BODY =
   '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>404 Not Found</title>' +
   '<meta name="robots" content="noindex"></head>' +
@@ -84,6 +102,15 @@ async function route(request, env) {
     const canonical = new URL(url.toString());
     canonical.pathname = pathname.slice(0, -1);
     return Response.redirect(canonical.toString(), 301);
+  }
+
+  // Static assets (CSS, JS, images, fonts, etc.) are served directly.
+  // Never try .html / /index.html variants: a missing asset must return a
+  // genuine 404, not an HTML page.
+  if (hasStaticExtension(pathname)) {
+    const response = await env.ASSETS.fetch(assetRequest(url, pathname, request));
+    if (response.status === 200) return response;
+    return new Response('', { status: 404, headers: { 'cache-control': 'no-store' } });
   }
 
   for (const path of candidatePaths(pathname)) {
