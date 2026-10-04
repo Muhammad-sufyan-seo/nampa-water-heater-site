@@ -43,8 +43,29 @@ for (const path of controlPaths) {
   assert(isGated(path, new Date('2026-10-12T00:00:00Z')) === false, `${path}: control path never gated (after)`);
 }
 
-// All 10 approved batch paths must be present with the identical release instant.
+// All 7 approved batch paths must be present with the identical release instant.
+// (Revised down from 10: the 6 brand pages + /brands hub were dropped —
+// their technical claims could not be verified beyond search-snippet level
+// in this environment, and stripping them left thin, duplicative content.)
 const expectedPaths = [
+  '/repair-vs-replace-nampa-id',
+  '/common-issues/water-heater-rotten-egg-smell-nampa-id',
+  '/water-heater-lifespan-nampa-id',
+  '/gas-vs-electric-water-heater-nampa-id',
+  '/tankless-vs-tank-water-heater-nampa-id',
+  '/water-heater-sizing-guide-nampa-id',
+  '/water-heater-maintenance-checklist-nampa-id',
+];
+assert(expectedPaths.length === 7, 'exactly 7 approved paths expected');
+for (const p of expectedPaths) {
+  assert(RELEASE_GATES[p] === '2026-10-05T01:00:00Z', `${p}: present with correct release instant (01:00 UTC Oct 5 = 06:00 PKT)`);
+}
+assert(Object.keys(RELEASE_GATES).length === 7, 'RELEASE_GATES has exactly 7 entries, no extras');
+
+// The 6 dropped brand pages and /brands must NOT be gated entries — they
+// don't exist as files at all now, so a request 404s unconditionally,
+// but confirm they were also fully removed from the gate config itself.
+const droppedPaths = [
   '/brands',
   '/brands/rheem-water-heater-repair-nampa-id',
   '/brands/ao-smith-water-heater-repair-nampa-id',
@@ -52,15 +73,10 @@ const expectedPaths = [
   '/brands/navien-water-heater-repair-nampa-id',
   '/brands/rinnai-water-heater-repair-nampa-id',
   '/brands/noritz-water-heater-repair-nampa-id',
-  '/repair-vs-replace-nampa-id',
-  '/common-issues/water-heater-rotten-egg-smell-nampa-id',
-  '/water-heater-lifespan-nampa-id',
 ];
-assert(expectedPaths.length === 10, 'exactly 10 approved paths expected');
-for (const p of expectedPaths) {
-  assert(RELEASE_GATES[p] === '2026-10-05T01:00:00Z', `${p}: present with correct release instant (01:00 UTC Oct 5 = 06:00 PKT)`);
+for (const p of droppedPaths) {
+  assert(!(p in RELEASE_GATES), `${p}: correctly absent from RELEASE_GATES (dropped from release)`);
 }
-assert(Object.keys(RELEASE_GATES).length === 10, 'RELEASE_GATES has exactly 10 entries, no extras');
 
 console.log(`\n${checks - failures}/${checks} checks passed.`);
 if (failures > 0) {

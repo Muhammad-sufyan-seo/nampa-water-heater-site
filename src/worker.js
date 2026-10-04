@@ -217,16 +217,13 @@ function candidatePaths(pathname) {
  * never depends on when `git push` or CI happened to run.
  */
 const RELEASE_GATES = {
-  '/brands': '2026-10-05T01:00:00Z',
-  '/brands/rheem-water-heater-repair-nampa-id': '2026-10-05T01:00:00Z',
-  '/brands/ao-smith-water-heater-repair-nampa-id': '2026-10-05T01:00:00Z',
-  '/brands/bradford-white-water-heater-repair-nampa-id': '2026-10-05T01:00:00Z',
-  '/brands/navien-water-heater-repair-nampa-id': '2026-10-05T01:00:00Z',
-  '/brands/rinnai-water-heater-repair-nampa-id': '2026-10-05T01:00:00Z',
-  '/brands/noritz-water-heater-repair-nampa-id': '2026-10-05T01:00:00Z',
   '/repair-vs-replace-nampa-id': '2026-10-05T01:00:00Z',
   '/common-issues/water-heater-rotten-egg-smell-nampa-id': '2026-10-05T01:00:00Z',
   '/water-heater-lifespan-nampa-id': '2026-10-05T01:00:00Z',
+  '/gas-vs-electric-water-heater-nampa-id': '2026-10-05T01:00:00Z',
+  '/tankless-vs-tank-water-heater-nampa-id': '2026-10-05T01:00:00Z',
+  '/water-heater-sizing-guide-nampa-id': '2026-10-05T01:00:00Z',
+  '/water-heater-maintenance-checklist-nampa-id': '2026-10-05T01:00:00Z',
 };
 
 /** Pure function — takes `now` as a parameter so release boundaries are testable. */
