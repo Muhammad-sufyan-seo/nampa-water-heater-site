@@ -74,15 +74,25 @@ async function route(request, env) {
 
   const pathname = url.pathname;
 
-  // Legacy .html URLs: 301 to canonical clean URL.
-  // /page.html        -> /page
-  // /dir/index.html   -> /dir
+  // Legacy .html URLs: 301 to canonical clean URL only if that page exists.
+  // /page.html        -> /page   (if /page.html exists in ASSETS)
+  // /dir/index.html   -> /dir    (if /dir/index.html exists in ASSETS)
+  // Unknown .html URLs (no matching asset) -> 404, not a redirect to nowhere.
   if (pathname.endsWith('.html')) {
-    const canonical = new URL(url.toString());
-    canonical.pathname = pathname.endsWith('/index.html')
+    const canonicalPathname = pathname.endsWith('/index.html')
       ? (pathname.slice(0, -'/index.html'.length) || '/')
       : pathname.slice(0, -'.html'.length);
-    return Response.redirect(canonical.toString(), 301);
+    let found = false;
+    for (const path of candidatePaths(canonicalPathname)) {
+      const probe = await env.ASSETS.fetch(assetRequest(url, path, request));
+      if (probe.status === 200) { found = true; break; }
+    }
+    if (found) {
+      const canonical = new URL(url.toString());
+      canonical.pathname = canonicalPathname;
+      return Response.redirect(canonical.toString(), 301);
+    }
+    return notFound();
   }
 
   // Trailing slash -> no trailing slash, except the homepage.
