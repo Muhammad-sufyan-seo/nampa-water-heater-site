@@ -14,96 +14,114 @@
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
 
   <!-- Schema: BreadcrumbList -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://nampawaterheater.com/"},
-      {"@type": "ListItem", "position": 2, "name": "Services", "item": "https://nampawaterheater.com/services"},
-      {"@type": "ListItem", "position": 3, "name": "Water Heater Repair", "item": "https://nampawaterheater.com/services/water-heater-repair-nampa-id"}
-    ]
-  }
-  </script>
-
-  <!-- Schema: Service -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": "Water Heater Repair in Nampa, ID",
-    "description": "Professional water heater repair services for gas and electric units throughout Nampa, Idaho. Same-day service available for no-hot-water emergencies, leaks, pilot light failures, and sediment issues.",
-    "provider": {
-      "@type": "LocalBusiness",
-      "@id": "https://nampawaterheater.com/#organization",
-      "name": "Nampa Water Heater Pros",
-      "telephone": "+1-208-987-5152",
-      "areaServed": {"@type": "City", "name": "Nampa", "addressRegion": "ID"}
-    },
-    "areaServed": {"@type": "City", "name": "Nampa", "addressRegion": "ID"},
-    "serviceType": "Water Heater Repair",
-    "offers": {
-      "@type": "Offer",
-      "priceRange": "$150 - $600",
-      "priceCurrency": "USD"
-    }
-  }
-  </script>
-
-  <!-- Schema: FAQPage -->
-  <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
+  "@graph": [
     {
-      "@type": "Question",
-      "name": "What's the average cost to repair a hot water heater?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Water heater repair costs in Nampa, ID typically range from $150 to $600. Minor fixes like thermostat or heating element replacement run $150–$300. More complex repairs—gas valve, pressure relief valve, or sediment flush—can reach $400–$600. We provide upfront pricing before any work begins."
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://nampawaterheater.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "https://nampawaterheater.com/services"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Water Heater Repair",
+          "item": "https://nampawaterheater.com/services/water-heater-repair-nampa-id"
+        }
+      ],
+      "@id": "https://nampawaterheater.com/services/water-heater-repair-nampa-id#breadcrumb"
+    },
+    {
+      "@type": "Service",
+      "name": "Water Heater Repair in Nampa, ID",
+      "description": "Professional water heater repair services for gas and electric units throughout Nampa, Idaho. Same-day service available for no-hot-water emergencies, leaks, pilot light failures, and sediment issues.",
+      "provider": {
+        "@type": "LocalBusiness",
+        "@id": "https://nampawaterheater.com/#organization",
+        "name": "Nampa Water Heater Pros",
+        "telephone": "+1-208-987-5152",
+        "areaServed": {
+          "@type": "City",
+          "name": "Nampa",
+          "addressRegion": "ID"
+        }
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Nampa",
+        "addressRegion": "ID"
+      },
+      "serviceType": "Water Heater Repair",
+      "offers": {
+        "@type": "Offer",
+        "priceRange": "$150 - $600",
+        "priceCurrency": "USD"
       }
     },
     {
-      "@type": "Question",
-      "name": "What is the most common problem with a hot water heater?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "In Nampa, the most common issues are sediment buildup from hard water (Canyon County water is considered hard), failed heating elements in electric units, thermocouple or pilot light failures in gas units, and pressure relief valve problems."
-      }
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What's the average cost to repair a hot water heater?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Water heater repair costs in Nampa, ID typically range from $150 to $600. Minor fixes like thermostat or heating element replacement run $150–$300. More complex repairs—gas valve, pressure relief valve, or sediment flush—can reach $400–$600. We provide upfront pricing before any work begins."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the most common problem with a hot water heater?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In Nampa, the most common issues are sediment buildup from hard water (Canyon County water is considered hard), failed heating elements in electric units, thermocouple or pilot light failures in gas units, and pressure relief valve problems."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Who do you call to come look at a hot water heater?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Call a licensed plumber or dedicated water heater service company. Nampa Water Heater Pros specializes exclusively in water heater systems—faster diagnostics than a general plumber. Call (208) 987-5152 for same-day service throughout Nampa."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it worth it to repair a hot water heater?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If your unit is under 7 years old and the repair costs less than 50% of a new unit, repair is usually the better value. Units 10–12+ years old often make more sense to replace. We give honest assessments and never push replacement when repair is the right call."
+          }
+        }
+      ]
     },
     {
-      "@type": "Question",
-      "name": "Who do you call to come look at a hot water heater?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Call a licensed plumber or dedicated water heater service company. Nampa Water Heater Pros specializes exclusively in water heater systems—faster diagnostics than a general plumber. Call (208) 987-5152 for same-day service throughout Nampa."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is it worth it to repair a hot water heater?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "If your unit is under 7 years old and the repair costs less than 50% of a new unit, repair is usually the better value. Units 10–12+ years old often make more sense to replace. We give honest assessments and never push replacement when repair is the right call."
-      }
+      "@type": "WebPage",
+      "name": "Water Heater Repair in Nampa, ID",
+      "url": "https://nampawaterheater.com/services/water-heater-repair-nampa-id",
+      "description": "Professional water heater repair services in Nampa, Idaho. Same-day service for gas and electric water heaters.",
+      "isPartOf": {
+        "@id": "https://nampawaterheater.com/#website"
+      },
+      "breadcrumb": {
+        "@id": "https://nampawaterheater.com/services/water-heater-repair-nampa-id#breadcrumb"
+      },
+      "@id": "https://nampawaterheater.com/services/water-heater-repair-nampa-id"
     }
   ]
 }
-  </script>
-
-  <!-- Schema: WebPage -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Water Heater Repair in Nampa, ID",
-    "url": "https://nampawaterheater.com/services/water-heater-repair-nampa-id",
-    "description": "Professional water heater repair services in Nampa, Idaho. Same-day service for gas and electric water heaters.",
-    "isPartOf": {"@id": "https://nampawaterheater.com/#website"},
-    "breadcrumb": {"@id": "https://nampawaterheater.com/services/water-heater-repair-nampa-id#breadcrumb"}
-  }
-  </script>
+</script>
 </head>
 <body>
 
