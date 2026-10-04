@@ -36,6 +36,28 @@ function hasStaticExtension(pathname) {
   return dot !== -1 && STATIC_EXTS.has(pathname.slice(dot).toLowerCase());
 }
 
+// Cache-Control tiers keyed by file extension.
+const CC_SCRIPT = new Set(['.css', '.js', '.mjs']);
+const CC_MEDIA  = new Set([
+  '.png', '.jpg', '.jpeg', '.webp', '.svg', '.ico', '.gif',
+  '.woff', '.woff2', '.ttf', '.eot',
+  '.mp4', '.webm', '.mp3', '.ogg',
+]);
+
+function cacheControl(pathname) {
+  const dot = pathname.lastIndexOf('.');
+  const ext = dot !== -1 ? pathname.slice(dot).toLowerCase() : '';
+  if (CC_SCRIPT.has(ext)) return 'public, max-age=3600, must-revalidate';
+  if (CC_MEDIA.has(ext))  return 'public, max-age=604800';
+  return 'public, max-age=0, must-revalidate'; // HTML and everything else
+}
+
+function withCacheControl(response, cc) {
+  const r = new Response(response.body, response);
+  r.headers.set('cache-control', cc);
+  return r;
+}
+
 const NOT_FOUND_BODY =
   '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>404 Not Found</title>' +
   '<meta name="robots" content="noindex"></head>' +
@@ -109,14 +131,14 @@ async function route(request, env) {
   // genuine 404, not an HTML page.
   if (hasStaticExtension(pathname)) {
     const response = await env.ASSETS.fetch(assetRequest(url, pathname, request));
-    if (response.status === 200) return response;
+    if (response.status === 200) return withCacheControl(response, cacheControl(pathname));
     return new Response('', { status: 404, headers: { 'cache-control': 'no-store' } });
   }
 
   for (const path of candidatePaths(pathname)) {
     const response = await env.ASSETS.fetch(assetRequest(url, path, request));
     if (response.status === 200) {
-      return response;
+      return withCacheControl(response, 'public, max-age=0, must-revalidate');
     }
   }
 
