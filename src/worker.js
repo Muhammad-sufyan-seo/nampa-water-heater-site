@@ -210,6 +210,47 @@ function candidatePaths(pathname) {
   ];
 }
 
+/**
+ * Scheduled-release gate. Deployed pages stay deployed but return the
+ * ordinary 404 until their release instant — the gate is enforced here,
+ * not by timing the deploy itself, so the exact minute a page goes live
+ * never depends on when `git push` or CI happened to run.
+ */
+const RELEASE_GATES = {
+  '/repair-vs-replace-nampa-id': '2026-10-05T01:00:00Z',
+  '/common-issues/water-heater-rotten-egg-smell-nampa-id': '2026-10-05T01:00:00Z',
+  '/water-heater-lifespan-nampa-id': '2026-10-05T01:00:00Z',
+  '/gas-vs-electric-water-heater-nampa-id': '2026-10-05T01:00:00Z',
+  '/tankless-vs-tank-water-heater-nampa-id': '2026-10-05T01:00:00Z',
+  '/water-heater-sizing-guide-nampa-id': '2026-10-05T01:00:00Z',
+  '/water-heater-maintenance-checklist-nampa-id': '2026-10-05T01:00:00Z',
+};
+
+/** Pure function — takes `now` as a parameter so release boundaries are testable. */
+function isGated(pathname, now) {
+  const releaseAt = RELEASE_GATES[pathname];
+  if (!releaseAt) return false;
+  return now.getTime() < new Date(releaseAt).getTime();
+}
+
+/**
+ * Strip any <url>...</url> block from a sitemap XML string whose <loc>
+ * path is currently gated. Pure function — `now` passed in for testability.
+ */
+function filterSitemap(xmlText, now) {
+  return xmlText.replace(/<url>[\s\S]*?<\/url>\s*/g, (block) => {
+    const locMatch = block.match(/<loc>(.*?)<\/loc>/);
+    if (!locMatch) return block;
+    let pathname;
+    try {
+      pathname = new URL(locMatch[1]).pathname;
+    } catch {
+      return block;
+    }
+    return isGated(pathname, now) ? '' : block;
+  });
+}
+
 async function route(request, env) {
   const url = new URL(request.url);
 
@@ -227,11 +268,37 @@ async function route(request, env) {
     return notFound();
   }
 
+  // Scheduled-release gate: not yet public, behaves exactly like a 404.
+  if (isGated(pathname, new Date())) {
+    return notFound();
+  }
+
   // Trailing slash -> no trailing slash, except the homepage.
   if (pathname.length > 1 && pathname.endsWith('/')) {
     const canonical = new URL(url.toString());
     canonical.pathname = pathname.slice(0, -1);
     return Response.redirect(canonical.toString(), 301);
+  }
+
+  // sitemap.xml is a static file normally served as-is, but it must never
+  // list a page before that page's own release gate opens — otherwise the
+  // sitemap itself becomes the early-discovery leak, even though the page
+  // behind the link still 404s. Filtered dynamically so this holds exactly
+  // in step with RELEASE_GATES, with no separate timed deploy required.
+  if (pathname === '/sitemap.xml') {
+    const response = await env.ASSETS.fetch(assetRequest(url, pathname, request));
+    if (response.status !== 200) {
+      return new Response('', { status: 404, headers: { 'cache-control': 'no-store' } });
+    }
+    const text = await response.text();
+    const filtered = filterSitemap(text, new Date());
+    return new Response(filtered, {
+      status: 200,
+      headers: {
+        'content-type': 'application/xml; charset=utf-8',
+        'cache-control': cacheControl(pathname),
+      },
+    });
   }
 
   // Static assets (CSS, JS, images, fonts, etc.) are served directly.
@@ -273,3 +340,7 @@ export default {
     }
   },
 };
+
+// Named exports for the release-boundary test suite only — the Worker
+// runtime uses the default export exclusively.
+export { isGated, RELEASE_GATES, filterSitemap };
