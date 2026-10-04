@@ -210,6 +210,32 @@ function candidatePaths(pathname) {
   ];
 }
 
+/**
+ * Scheduled-release gate. Deployed pages stay deployed but return the
+ * ordinary 404 until their release instant — the gate is enforced here,
+ * not by timing the deploy itself, so the exact minute a page goes live
+ * never depends on when `git push` or CI happened to run.
+ */
+const RELEASE_GATES = {
+  '/brands': '2026-10-05T01:00:00Z',
+  '/brands/rheem-water-heater-repair-nampa-id': '2026-10-05T01:00:00Z',
+  '/brands/ao-smith-water-heater-repair-nampa-id': '2026-10-05T01:00:00Z',
+  '/brands/bradford-white-water-heater-repair-nampa-id': '2026-10-05T01:00:00Z',
+  '/brands/navien-water-heater-repair-nampa-id': '2026-10-05T01:00:00Z',
+  '/brands/rinnai-water-heater-repair-nampa-id': '2026-10-05T01:00:00Z',
+  '/brands/noritz-water-heater-repair-nampa-id': '2026-10-05T01:00:00Z',
+  '/repair-vs-replace-nampa-id': '2026-10-05T01:00:00Z',
+  '/common-issues/water-heater-rotten-egg-smell-nampa-id': '2026-10-05T01:00:00Z',
+  '/water-heater-lifespan-nampa-id': '2026-10-05T01:00:00Z',
+};
+
+/** Pure function — takes `now` as a parameter so release boundaries are testable. */
+function isGated(pathname, now) {
+  const releaseAt = RELEASE_GATES[pathname];
+  if (!releaseAt) return false;
+  return now.getTime() < new Date(releaseAt).getTime();
+}
+
 async function route(request, env) {
   const url = new URL(request.url);
 
@@ -224,6 +250,11 @@ async function route(request, env) {
 
   // .html URLs must 404, never redirect.
   if (pathname.endsWith('.html')) {
+    return notFound();
+  }
+
+  // Scheduled-release gate: not yet public, behaves exactly like a 404.
+  if (isGated(pathname, new Date())) {
     return notFound();
   }
 
@@ -273,3 +304,7 @@ export default {
     }
   },
 };
+
+// Named exports for the release-boundary test suite only — the Worker
+// runtime uses the default export exclusively.
+export { isGated, RELEASE_GATES };
