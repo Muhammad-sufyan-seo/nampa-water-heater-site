@@ -11,87 +11,106 @@
   <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
 
   <!-- Schema: BreadcrumbList -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://nampawaterheater.com/"},
-      {"@type": "ListItem", "position": 2, "name": "Services", "item": "https://nampawaterheater.com/services"},
-      {"@type": "ListItem", "position": 3, "name": "Water Heater Replacement", "item": "https://nampawaterheater.com/services/water-heater-replacement-nampa-id"}
-    ]
-  }
-  </script>
-
-  <!-- Schema: Service -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": "Water Heater Replacement in Nampa, ID",
-    "description": "Complete water heater replacement services in Nampa, Idaho. Old unit removal, new unit installation, tankless upgrades, and honest repair-or-replace guidance.",
-    "provider": {
-      "@type": "LocalBusiness",
-      "@id": "https://nampawaterheater.com/#organization",
-      "name": "Nampa Water Heater Pros",
-      "telephone": "+1-208-987-5152",
-      "areaServed": {"@type": "City", "name": "Nampa", "addressRegion": "ID"}
-    },
-    "areaServed": {"@type": "City", "name": "Nampa", "addressRegion": "ID"},
-    "serviceType": "Water Heater Replacement",
-    "offers": {
-      "@type": "Offer",
-      "priceRange": "$800 - $3500",
-      "priceCurrency": "USD"
-    }
-  }
-  </script>
-
-  <!-- Schema: FAQPage -->
-  <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
+  "@graph": [
     {
-      "@type": "Question",
-      "name": "Who do I call if I need a new hot water heater?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Call a licensed plumber or dedicated water heater service company. Nampa Water Heater Pros handles the full replacement process—old unit removal, new unit selection guidance, installation, permits, and code compliance. Call (208) 987-5152 for same-day availability."
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://nampawaterheater.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "https://nampawaterheater.com/services"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Water Heater Replacement",
+          "item": "https://nampawaterheater.com/services/water-heater-replacement-nampa-id"
+        }
+      ],
+      "@id": "https://nampawaterheater.com/services/water-heater-replacement-nampa-id#breadcrumb"
+    },
+    {
+      "@type": "Service",
+      "name": "Water Heater Replacement in Nampa, ID",
+      "description": "Complete water heater replacement services in Nampa, Idaho. Old unit removal, new unit installation, tankless upgrades, and honest repair-or-replace guidance.",
+      "provider": {
+        "@type": "LocalBusiness",
+        "@id": "https://nampawaterheater.com/#organization",
+        "name": "Nampa Water Heater Pros",
+        "telephone": "+1-208-987-5152",
+        "areaServed": {
+          "@type": "City",
+          "name": "Nampa",
+          "addressRegion": "ID"
+        }
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Nampa",
+        "addressRegion": "ID"
+      },
+      "serviceType": "Water Heater Replacement",
+      "offers": {
+        "@type": "Offer",
+        "priceRange": "$800 - $3500",
+        "priceCurrency": "USD"
       }
     },
     {
-      "@type": "Question",
-      "name": "What is the longest lasting water heater brand?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Bradford White and A.O. Smith consistently rank among the longest-lasting tank brands, often reaching 12–15 years with proper maintenance. Navien and Rinnai lead in tankless longevity at 20+ years. In Nampa, maintenance frequency matters more than brand—hard water accelerates wear on any unit."
-      }
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Who do I call if I need a new hot water heater?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Call a licensed plumber or dedicated water heater service company. Nampa Water Heater Pros handles the full replacement process—old unit removal, new unit selection guidance, installation, permits, and code compliance. Call (208) 987-5152 for same-day availability."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the longest lasting water heater brand?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Bradford White and A.O. Smith consistently rank among the longest-lasting tank brands, often reaching 12–15 years with proper maintenance. Navien and Rinnai lead in tankless longevity at 20+ years. In Nampa, maintenance frequency matters more than brand—hard water accelerates wear on any unit."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it worth it to repair a hot water heater before replacing it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If your unit is under 7 years old and the repair is less than 50% of replacement cost, repair is usually the better value. For units 10+ years old in Nampa's hard water environment, replacement typically makes more financial sense—you get improved efficiency, a fresh warranty, and years of reliable service ahead."
+          }
+        }
+      ]
     },
     {
-      "@type": "Question",
-      "name": "Is it worth it to repair a hot water heater before replacing it?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "If your unit is under 7 years old and the repair is less than 50% of replacement cost, repair is usually the better value. For units 10+ years old in Nampa's hard water environment, replacement typically makes more financial sense—you get improved efficiency, a fresh warranty, and years of reliable service ahead."
+      "@type": "WebPage",
+      "name": "Water Heater Replacement in Nampa, ID",
+      "url": "https://nampawaterheater.com/services/water-heater-replacement-nampa-id",
+      "description": "Complete water heater replacement services in Nampa, Idaho.",
+      "isPartOf": {
+        "@id": "https://nampawaterheater.com/#website"
+      },
+      "@id": "https://nampawaterheater.com/services/water-heater-replacement-nampa-id",
+      "breadcrumb": {
+        "@id": "https://nampawaterheater.com/services/water-heater-replacement-nampa-id#breadcrumb"
       }
     }
   ]
 }
-  </script>
-
-  <!-- Schema: WebPage -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Water Heater Replacement in Nampa, ID",
-    "url": "https://nampawaterheater.com/services/water-heater-replacement-nampa-id",
-    "description": "Complete water heater replacement services in Nampa, Idaho.",
-    "isPartOf": {"@id": "https://nampawaterheater.com/#website"}
-  }
-  </script>
+</script>
 </head>
 <body>
 

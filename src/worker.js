@@ -74,9 +74,15 @@ async function route(request, env) {
 
   const pathname = url.pathname;
 
-  // Old .html paths must 404, never redirect.
+  // Legacy .html URLs: 301 to canonical clean URL.
+  // /page.html        -> /page
+  // /dir/index.html   -> /dir
   if (pathname.endsWith('.html')) {
-    return notFound();
+    const canonical = new URL(url.toString());
+    canonical.pathname = pathname.endsWith('/index.html')
+      ? (pathname.slice(0, -'/index.html'.length) || '/')
+      : pathname.slice(0, -'.html'.length);
+    return Response.redirect(canonical.toString(), 301);
   }
 
   // Trailing slash -> no trailing slash, except the homepage.

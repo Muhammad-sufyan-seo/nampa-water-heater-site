@@ -10,81 +10,120 @@
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
 
-    <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://nampawaterheater.com/"},
-      {"@type": "ListItem", "position": 2, "name": "Services", "item": "https://nampawaterheater.com/services"},
-      {"@type": "ListItem", "position": 3, "name": "Water Heater Repair", "item": "https://nampawaterheater.com/services/water-heater-repair-nampa-id"},
-      {"@type": "ListItem", "position": 4, "name": "Electric Water Heater Repair", "item": "https://nampawaterheater.com/services/electric-water-heater-repair-nampa-id"}
-    ]
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": "Electric Water Heater Repair in Nampa, ID",
-    "description": "Professional electric water heater repair in Nampa, Idaho. Heating element and thermostat replacement, breaker issues, sediment flushing. Same-day service.",
-    "provider": {
-      "@type": "LocalBusiness",
-      "@id": "https://nampawaterheater.com/#organization",
-      "name": "Nampa Water Heater Pros",
-      "telephone": "+1-208-987-5152",
-      "areaServed": {"@type": "City", "name": "Nampa", "addressRegion": "ID"}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://nampawaterheater.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "https://nampawaterheater.com/services"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Water Heater Repair",
+          "item": "https://nampawaterheater.com/services/water-heater-repair-nampa-id"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Electric Water Heater Repair",
+          "item": "https://nampawaterheater.com/services/electric-water-heater-repair-nampa-id"
+        }
+      ],
+      "@id": "https://nampawaterheater.com/services/electric-water-heater-repair-nampa-id#breadcrumb"
     },
-    "areaServed": {"@type": "City", "name": "Nampa", "addressRegion": "ID"},
-    "serviceType": "Electric Water Heater Repair",
-    "offers": {
-      "@type": "Offer",
-      "priceRange": "$120 - $500",
-      "priceCurrency": "USD"
-    }
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Why does my electric water heater have no hot water?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "The most common causes are a failed heating element (upper or lower), a tripped high-limit safety switch, a faulty thermostat, or a tripped circuit breaker. In Nampa, hard water mineral scale coating the lower heating element is a leading cause of element failure—scale acts as insulation that causes elements to overheat and burn out."
+    {
+      "@type": "Service",
+      "name": "Electric Water Heater Repair in Nampa, ID",
+      "description": "Professional electric water heater repair in Nampa, Idaho. Heating element and thermostat replacement, breaker issues, sediment flushing. Same-day service.",
+      "provider": {
+        "@type": "LocalBusiness",
+        "@id": "https://nampawaterheater.com/#organization",
+        "name": "Nampa Water Heater Pros",
+        "telephone": "+1-208-987-5152",
+        "areaServed": {
+          "@type": "City",
+          "name": "Nampa",
+          "addressRegion": "ID"
         }
       },
-      {
-        "@type": "Question",
-        "name": "How much does it cost to replace a water heater heating element in Nampa?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Heating element replacement in Nampa typically runs $120–$250 for labor plus $20–$60 for the element itself. If both elements need replacement, expect $200–$350 total. We provide upfront pricing before starting."
-        }
+      "areaServed": {
+        "@type": "City",
+        "name": "Nampa",
+        "addressRegion": "ID"
       },
-      {
-        "@type": "Question",
-        "name": "Why does my electric water heater breaker keep tripping?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "A repeatedly tripping breaker on a water heater circuit usually means a failed heating element that's drawing too much current, a short in the wiring, or a breaker that's reached the end of its life. Do not keep resetting it—call a licensed technician to diagnose the root cause."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Is it worth repairing an electric water heater?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes, for units under 8–10 years old. Most electric water heater repairs are heating element or thermostat replacements—relatively inexpensive fixes that extend unit life significantly. For units over 12 years old with multiple issues, replacement makes more economic sense."
-        }
+      "serviceType": "Electric Water Heater Repair",
+      "offers": {
+        "@type": "Offer",
+        "priceRange": "$120 - $500",
+        "priceCurrency": "USD"
       }
-    ]
-  }
-  </script>
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why does my electric water heater have no hot water?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The most common causes are a failed heating element (upper or lower), a tripped high-limit safety switch, a faulty thermostat, or a tripped circuit breaker. In Nampa, hard water mineral scale coating the lower heating element is a leading cause of element failure—scale acts as insulation that causes elements to overheat and burn out."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much does it cost to replace a water heater heating element in Nampa?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Heating element replacement in Nampa typically runs $120–$250 for labor plus $20–$60 for the element itself. If both elements need replacement, expect $200–$350 total. We provide upfront pricing before starting."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my electric water heater breaker keep tripping?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A repeatedly tripping breaker on a water heater circuit usually means a failed heating element that's drawing too much current, a short in the wiring, or a breaker that's reached the end of its life. Do not keep resetting it—call a licensed technician to diagnose the root cause."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it worth repairing an electric water heater?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, for units under 8–10 years old. Most electric water heater repairs are heating element or thermostat replacements—relatively inexpensive fixes that extend unit life significantly. For units over 12 years old with multiple issues, replacement makes more economic sense."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://nampawaterheater.com/services/electric-water-heater-repair-nampa-id",
+      "name": "Electric Water Heater Repair in Nampa, ID | Same-Day Service",
+      "url": "https://nampawaterheater.com/services/electric-water-heater-repair-nampa-id",
+      "description": "Licensed electric water heater repair in Nampa, Idaho. Heating element replacement, thermostat failures, tripped breakers. Same-day service. Call (208) 987-5152.",
+      "isPartOf": {
+        "@id": "https://nampawaterheater.com/#website"
+      },
+      "breadcrumb": {
+        "@id": "https://nampawaterheater.com/services/electric-water-heater-repair-nampa-id#breadcrumb"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 

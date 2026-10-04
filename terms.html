@@ -11,16 +11,44 @@
   <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
 
   <!-- Schema: BreadcrumbList -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://nampawaterheater.com/"},
-      {"@type": "ListItem", "position": 2, "name": "Terms of Service", "item": "https://nampawaterheater.com/terms"}
-    ]
-  }
-  </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://nampawaterheater.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Terms of Service",
+          "item": "https://nampawaterheater.com/terms"
+        }
+      ],
+      "@id": "https://nampawaterheater.com/terms#breadcrumb"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://nampawaterheater.com/terms",
+      "name": "Terms of Service | Nampa Water Heater Pros",
+      "url": "https://nampawaterheater.com/terms",
+      "description": "Terms of Service for NampaWaterHeater.com — the terms governing your use of our website and services.",
+      "isPartOf": {
+        "@id": "https://nampawaterheater.com/#website"
+      },
+      "breadcrumb": {
+        "@id": "https://nampawaterheater.com/terms#breadcrumb"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 

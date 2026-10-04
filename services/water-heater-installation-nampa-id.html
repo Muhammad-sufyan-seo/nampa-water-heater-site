@@ -11,87 +11,106 @@
   <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
 
   <!-- Schema: BreadcrumbList -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://nampawaterheater.com/"},
-      {"@type": "ListItem", "position": 2, "name": "Services", "item": "https://nampawaterheater.com/services"},
-      {"@type": "ListItem", "position": 3, "name": "Water Heater Installation", "item": "https://nampawaterheater.com/services/water-heater-installation-nampa-id"}
-    ]
-  }
-  </script>
-
-  <!-- Schema: Service -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": "Water Heater Installation in Nampa, ID",
-    "description": "Professional water heater installation services in Nampa, Idaho. Tank, tankless, and heat pump water heater systems for new construction, upgrades, and conversions.",
-    "provider": {
-      "@type": "LocalBusiness",
-      "@id": "https://nampawaterheater.com/#organization",
-      "name": "Nampa Water Heater Pros",
-      "telephone": "+1-208-987-5152",
-      "areaServed": {"@type": "City", "name": "Nampa", "addressRegion": "ID"}
-    },
-    "areaServed": {"@type": "City", "name": "Nampa", "addressRegion": "ID"},
-    "serviceType": "Water Heater Installation",
-    "offers": {
-      "@type": "Offer",
-      "priceRange": "$800 - $3500",
-      "priceCurrency": "USD"
-    }
-  }
-  </script>
-
-  <!-- Schema: FAQPage -->
-  <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
+  "@graph": [
     {
-      "@type": "Question",
-      "name": "What's the average cost of water heater installation in Nampa, ID?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A standard tank installation runs $800–$1,500 installed. Tankless systems run $1,800–$3,500. Heat pump (hybrid) water heaters fall in the $1,500–$2,500 range. All figures include unit, labor, permits, and code-compliant connections."
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://nampawaterheater.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "https://nampawaterheater.com/services"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Water Heater Installation",
+          "item": "https://nampawaterheater.com/services/water-heater-installation-nampa-id"
+        }
+      ],
+      "@id": "https://nampawaterheater.com/services/water-heater-installation-nampa-id#breadcrumb"
+    },
+    {
+      "@type": "Service",
+      "name": "Water Heater Installation in Nampa, ID",
+      "description": "Professional water heater installation services in Nampa, Idaho. Tank, tankless, and heat pump water heater systems for new construction, upgrades, and conversions.",
+      "provider": {
+        "@type": "LocalBusiness",
+        "@id": "https://nampawaterheater.com/#organization",
+        "name": "Nampa Water Heater Pros",
+        "telephone": "+1-208-987-5152",
+        "areaServed": {
+          "@type": "City",
+          "name": "Nampa",
+          "addressRegion": "ID"
+        }
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Nampa",
+        "addressRegion": "ID"
+      },
+      "serviceType": "Water Heater Installation",
+      "offers": {
+        "@type": "Offer",
+        "priceRange": "$800 - $3500",
+        "priceCurrency": "USD"
       }
     },
     {
-      "@type": "Question",
-      "name": "Who is the best person to install a water heater?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "A licensed plumber or certified water heater installer. In Idaho, installation requires a plumbing permit and must meet IRC code requirements. Hiring an unlicensed contractor can result in failed inspections, voided warranties, and safety hazards."
-      }
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What's the average cost of water heater installation in Nampa, ID?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A standard tank installation runs $800–$1,500 installed. Tankless systems run $1,800–$3,500. Heat pump (hybrid) water heaters fall in the $1,500–$2,500 range. All figures include unit, labor, permits, and code-compliant connections."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Who is the best person to install a water heater?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A licensed plumber or certified water heater installer. In Idaho, installation requires a plumbing permit and must meet IRC code requirements. Hiring an unlicensed contractor can result in failed inspections, voided warranties, and safety hazards."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are water heater straps required in Idaho?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Idaho follows the IRC, which requires seismic strapping for water heaters. All installations we perform include compliant strapping per current Idaho code—this is not optional and should be verified on any installation."
+          }
+        }
+      ]
     },
     {
-      "@type": "Question",
-      "name": "Are water heater straps required in Idaho?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Idaho follows the IRC, which requires seismic strapping for water heaters. All installations we perform include compliant strapping per current Idaho code—this is not optional and should be verified on any installation."
+      "@type": "WebPage",
+      "name": "Water Heater Installation in Nampa, ID",
+      "url": "https://nampawaterheater.com/services/water-heater-installation-nampa-id",
+      "description": "Professional water heater installation services in Nampa, Idaho. Tank, tankless, and heat pump systems.",
+      "isPartOf": {
+        "@id": "https://nampawaterheater.com/#website"
+      },
+      "@id": "https://nampawaterheater.com/services/water-heater-installation-nampa-id",
+      "breadcrumb": {
+        "@id": "https://nampawaterheater.com/services/water-heater-installation-nampa-id#breadcrumb"
       }
     }
   ]
 }
-  </script>
-
-  <!-- Schema: WebPage -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Water Heater Installation in Nampa, ID",
-    "url": "https://nampawaterheater.com/services/water-heater-installation-nampa-id",
-    "description": "Professional water heater installation services in Nampa, Idaho. Tank, tankless, and heat pump systems.",
-    "isPartOf": {"@id": "https://nampawaterheater.com/#website"}
-  }
-  </script>
+</script>
 </head>
 <body>
 

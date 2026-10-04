@@ -10,74 +10,110 @@
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
 
-    <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://nampawaterheater.com/"},
-      {"@type": "ListItem", "position": 2, "name": "Common Issues", "item": "https://nampawaterheater.com/common-issues"},
-      {"@type": "ListItem", "position": 3, "name": "Rusty, Discolored, or Smelly Water", "item": "https://nampawaterheater.com/common-issues/rusty-discolored-water-nampa-id"}
-    ]
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": "Water Quality Diagnosis in Nampa, ID",
-    "description": "Diagnosis of rusty, discolored, and smelly hot water in Nampa, Idaho. Anode rod replacement and tank corrosion assessment.",
-    "provider": {
-      "@type": "LocalBusiness",
-      "@id": "https://nampawaterheater.com/#organization",
-      "name": "Nampa Water Heater Pros",
-      "telephone": "+1-208-987-5152",
-      "areaServed": {"@type": "City", "name": "Nampa", "addressRegion": "ID"}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://nampawaterheater.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Common Issues",
+          "item": "https://nampawaterheater.com/common-issues"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Rusty, Discolored, or Smelly Water",
+          "item": "https://nampawaterheater.com/common-issues/rusty-discolored-water-nampa-id"
+        }
+      ],
+      "@id": "https://nampawaterheater.com/common-issues/rusty-discolored-water-nampa-id#breadcrumb"
     },
-    "areaServed": {"@type": "City", "name": "Nampa", "addressRegion": "ID"}
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Why is my hot water rusty or discolored?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Rusty or discolored hot water almost always originates from the water heater tank itself—either from a depleted anode rod allowing internal corrosion to begin, or from mineral sediment stirred up inside the tank. Nampa's hard water accelerates anode rod depletion, making this a common issue in the area."
+    {
+      "@type": "Article",
+      "description": "Diagnosis of rusty, discolored, and smelly hot water in Nampa, Idaho. Anode rod replacement and tank corrosion assessment.",
+      "@id": "https://nampawaterheater.com/common-issues/rusty-discolored-water-nampa-id#article",
+      "headline": "Water Quality Diagnosis in Nampa, ID",
+      "author": {
+        "@type": "LocalBusiness",
+        "@id": "https://nampawaterheater.com/#organization",
+        "name": "Nampa Water Heater Pros",
+        "telephone": "+1-208-987-5152",
+        "areaServed": {
+          "@type": "City",
+          "name": "Nampa",
+          "addressRegion": "ID"
         }
       },
-      {
-        "@type": "Question",
-        "name": "Why does my hot water smell like rotten eggs?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "A sulfur or rotten-egg smell in hot water (but not cold) is typically caused by a chemical reaction between the magnesium anode rod and sulfate-reducing bacteria in the water, producing hydrogen sulfide gas. Replacing the anode rod with an aluminum or zinc-alloy rod usually resolves this."
-        }
+      "publisher": {
+        "@id": "https://nampawaterheater.com/#organization"
       },
-      {
-        "@type": "Question",
-        "name": "Is it safe to use rusty hot water?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Rust-discolored water from your own water heater (as opposed to municipal supply issues) is generally not a health hazard for bathing or washing, but it's not recommended for drinking or cooking. It also signals your tank is corroding internally and needs professional evaluation soon."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can an anode rod replacement fix discolored water?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes, if caught early. If the anode rod is depleted but the tank hasn't yet begun significant corrosion, replacing the anode rod can resolve rotten-egg odor and stop further internal corrosion. If the tank has already begun rusting through, replacement of the whole unit is usually necessary."
-        }
+      "about": {
+        "@id": "https://nampawaterheater.com/#organization"
       }
-    ]
-  }
-  </script>
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why is my hot water rusty or discolored?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Rusty or discolored hot water almost always originates from the water heater tank itself—either from a depleted anode rod allowing internal corrosion to begin, or from mineral sediment stirred up inside the tank. Nampa's hard water accelerates anode rod depletion, making this a common issue in the area."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does my hot water smell like rotten eggs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A sulfur or rotten-egg smell in hot water (but not cold) is typically caused by a chemical reaction between the magnesium anode rod and sulfate-reducing bacteria in the water, producing hydrogen sulfide gas. Replacing the anode rod with an aluminum or zinc-alloy rod usually resolves this."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it safe to use rusty hot water?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Rust-discolored water from your own water heater (as opposed to municipal supply issues) is generally not a health hazard for bathing or washing, but it's not recommended for drinking or cooking. It also signals your tank is corroding internally and needs professional evaluation soon."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can an anode rod replacement fix discolored water?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, if caught early. If the anode rod is depleted but the tank hasn't yet begun significant corrosion, replacing the anode rod can resolve rotten-egg odor and stop further internal corrosion. If the tank has already begun rusting through, replacement of the whole unit is usually necessary."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://nampawaterheater.com/common-issues/rusty-discolored-water-nampa-id",
+      "name": "Rusty, Discolored, or Smelly Hot Water in Nampa, ID | Causes & Fixes",
+      "url": "https://nampawaterheater.com/common-issues/rusty-discolored-water-nampa-id",
+      "description": "Rusty, discolored, or smelly hot water in Nampa, ID? Learn what",
+      "isPartOf": {
+        "@id": "https://nampawaterheater.com/#website"
+      },
+      "breadcrumb": {
+        "@id": "https://nampawaterheater.com/common-issues/rusty-discolored-water-nampa-id#breadcrumb"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 

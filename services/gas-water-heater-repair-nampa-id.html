@@ -10,81 +10,120 @@
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
 
-    <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://nampawaterheater.com/"},
-      {"@type": "ListItem", "position": 2, "name": "Services", "item": "https://nampawaterheater.com/services"},
-      {"@type": "ListItem", "position": 3, "name": "Water Heater Repair", "item": "https://nampawaterheater.com/services/water-heater-repair-nampa-id"},
-      {"@type": "ListItem", "position": 4, "name": "Gas Water Heater Repair", "item": "https://nampawaterheater.com/services/gas-water-heater-repair-nampa-id"}
-    ]
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": "Gas Water Heater Repair in Nampa, ID",
-    "description": "Professional gas water heater repair services in Nampa, Idaho. Thermocouple, pilot light, gas valve, and burner repairs. Same-day service available.",
-    "provider": {
-      "@type": "LocalBusiness",
-      "@id": "https://nampawaterheater.com/#organization",
-      "name": "Nampa Water Heater Pros",
-      "telephone": "+1-208-987-5152",
-      "areaServed": {"@type": "City", "name": "Nampa", "addressRegion": "ID"}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://nampawaterheater.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "https://nampawaterheater.com/services"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Water Heater Repair",
+          "item": "https://nampawaterheater.com/services/water-heater-repair-nampa-id"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Gas Water Heater Repair",
+          "item": "https://nampawaterheater.com/services/gas-water-heater-repair-nampa-id"
+        }
+      ],
+      "@id": "https://nampawaterheater.com/services/gas-water-heater-repair-nampa-id#breadcrumb"
     },
-    "areaServed": {"@type": "City", "name": "Nampa", "addressRegion": "ID"},
-    "serviceType": "Gas Water Heater Repair",
-    "offers": {
-      "@type": "Offer",
-      "priceRange": "$150 - $550",
-      "priceCurrency": "USD"
-    }
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What causes a gas water heater to stop working?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "The most common causes in Nampa homes are a failed thermocouple (the safety sensor that keeps the pilot lit), a dirty pilot orifice, a faulty gas valve, or a failed thermostat. Canyon County's hard water also causes sediment accumulation that stresses burner components."
+    {
+      "@type": "Service",
+      "name": "Gas Water Heater Repair in Nampa, ID",
+      "description": "Professional gas water heater repair services in Nampa, Idaho. Thermocouple, pilot light, gas valve, and burner repairs. Same-day service available.",
+      "provider": {
+        "@type": "LocalBusiness",
+        "@id": "https://nampawaterheater.com/#organization",
+        "name": "Nampa Water Heater Pros",
+        "telephone": "+1-208-987-5152",
+        "areaServed": {
+          "@type": "City",
+          "name": "Nampa",
+          "addressRegion": "ID"
         }
       },
-      {
-        "@type": "Question",
-        "name": "How much does gas water heater repair cost in Nampa?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Gas water heater repairs in Nampa typically run $150–$550. Thermocouple replacement is the most common fix at $150–$250. Gas valve or burner assembly replacement runs $300–$550. We provide upfront pricing before any work begins."
-        }
+      "areaServed": {
+        "@type": "City",
+        "name": "Nampa",
+        "addressRegion": "ID"
       },
-      {
-        "@type": "Question",
-        "name": "Is it safe to relight my gas water heater pilot myself?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Relighting a pilot is generally safe if you follow the manufacturer's instructions printed on the unit. However, if the pilot won't stay lit, if you smell gas, or if you're unsure of the procedure, stop and call a licensed technician. A failed thermocouple—not user error—is the most common reason a pilot won't stay lit."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How long does a gas water heater last?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Standard gas tank water heaters typically last 8–12 years. In Nampa, hard water can accelerate wear if annual sediment flushing isn't performed. Tankless gas units last 15–20 years with proper maintenance including periodic descaling."
-        }
+      "serviceType": "Gas Water Heater Repair",
+      "offers": {
+        "@type": "Offer",
+        "priceRange": "$150 - $550",
+        "priceCurrency": "USD"
       }
-    ]
-  }
-  </script>
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What causes a gas water heater to stop working?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The most common causes in Nampa homes are a failed thermocouple (the safety sensor that keeps the pilot lit), a dirty pilot orifice, a faulty gas valve, or a failed thermostat. Canyon County's hard water also causes sediment accumulation that stresses burner components."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much does gas water heater repair cost in Nampa?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Gas water heater repairs in Nampa typically run $150–$550. Thermocouple replacement is the most common fix at $150–$250. Gas valve or burner assembly replacement runs $300–$550. We provide upfront pricing before any work begins."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it safe to relight my gas water heater pilot myself?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Relighting a pilot is generally safe if you follow the manufacturer's instructions printed on the unit. However, if the pilot won't stay lit, if you smell gas, or if you're unsure of the procedure, stop and call a licensed technician. A failed thermocouple—not user error—is the most common reason a pilot won't stay lit."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does a gas water heater last?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Standard gas tank water heaters typically last 8–12 years. In Nampa, hard water can accelerate wear if annual sediment flushing isn't performed. Tankless gas units last 15–20 years with proper maintenance including periodic descaling."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://nampawaterheater.com/services/gas-water-heater-repair-nampa-id",
+      "name": "Gas Water Heater Repair in Nampa, ID | Same-Day Service",
+      "url": "https://nampawaterheater.com/services/gas-water-heater-repair-nampa-id",
+      "description": "Licensed gas water heater repair in Nampa, Idaho. Pilot light failures, gas valve issues, thermocouple replacement. Same-day service. Call (208) 987-5152.",
+      "isPartOf": {
+        "@id": "https://nampawaterheater.com/#website"
+      },
+      "breadcrumb": {
+        "@id": "https://nampawaterheater.com/services/gas-water-heater-repair-nampa-id#breadcrumb"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
