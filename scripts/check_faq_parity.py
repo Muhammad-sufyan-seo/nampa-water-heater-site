@@ -28,6 +28,14 @@ for root, dirs, files in os.walk(BASE):
             if parsed.get("@type") == "FAQPage":
                 data = parsed
                 break
+            # Single-@graph format (post-consolidation): FAQPage is a node
+            # inside @graph, not the top-level object.
+            for node in parsed.get("@graph", []):
+                if node.get("@type") == "FAQPage":
+                    data = node
+                    break
+            if data is not None:
+                break
         if data is None:
             continue
 
