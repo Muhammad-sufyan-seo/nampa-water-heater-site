@@ -5,7 +5,8 @@
  * before its release instant, and freely served (gated=false) exactly at
  * and one second after it. Run: node scripts/test_release_gates.mjs
  */
-import { isGated, RELEASE_GATES } from '../src/worker.js';
+import { isGated, RELEASE_GATES, filterSitemap } from '../src/worker.js';
+import { readFileSync } from 'fs';
 
 let failures = 0;
 let checks = 0;
@@ -76,6 +77,31 @@ const droppedPaths = [
 ];
 for (const p of droppedPaths) {
   assert(!(p in RELEASE_GATES), `${p}: correctly absent from RELEASE_GATES (dropped from release)`);
+}
+
+// sitemap.xml must not leak any of the 7 gated URLs before their release
+// instant, and must include all 7 once it passes.
+console.log('\nTesting sitemap.xml filtering...\n');
+const sitemapXml = readFileSync(new URL('../sitemap.xml', import.meta.url), 'utf-8');
+
+const beforeRelease = new Date('2026-10-04T11:00:00Z');
+const filteredBefore = filterSitemap(sitemapXml, beforeRelease);
+for (const p of expectedPaths) {
+  assert(!filteredBefore.includes(`https://nampawaterheater.com${p}</loc>`), `sitemap pre-release: ${p} absent`);
+}
+// The 31 pre-existing pages must still be present pre-release.
+assert(filteredBefore.includes('https://nampawaterheater.com/</loc>'), 'sitemap pre-release: homepage still present');
+assert(filteredBefore.includes('https://nampawaterheater.com/about</loc>'), 'sitemap pre-release: /about still present');
+
+const afterRelease = new Date('2026-10-05T01:00:01Z');
+const filteredAfter = filterSitemap(sitemapXml, afterRelease);
+for (const p of expectedPaths) {
+  assert(filteredAfter.includes(`https://nampawaterheater.com${p}</loc>`), `sitemap post-release: ${p} present`);
+}
+
+// Dropped brand paths must never appear in the raw sitemap at all, at any time.
+for (const p of droppedPaths) {
+  assert(!sitemapXml.includes(`https://nampawaterheater.com${p}</loc>`), `sitemap: dropped path ${p} not present in raw sitemap.xml at all`);
 }
 
 console.log(`\n${checks - failures}/${checks} checks passed.`);

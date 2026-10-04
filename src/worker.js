@@ -233,6 +233,24 @@ function isGated(pathname, now) {
   return now.getTime() < new Date(releaseAt).getTime();
 }
 
+/**
+ * Strip any <url>...</url> block from a sitemap XML string whose <loc>
+ * path is currently gated. Pure function — `now` passed in for testability.
+ */
+function filterSitemap(xmlText, now) {
+  return xmlText.replace(/<url>[\s\S]*?<\/url>\s*/g, (block) => {
+    const locMatch = block.match(/<loc>(.*?)<\/loc>/);
+    if (!locMatch) return block;
+    let pathname;
+    try {
+      pathname = new URL(locMatch[1]).pathname;
+    } catch {
+      return block;
+    }
+    return isGated(pathname, now) ? '' : block;
+  });
+}
+
 async function route(request, env) {
   const url = new URL(request.url);
 
@@ -260,6 +278,27 @@ async function route(request, env) {
     const canonical = new URL(url.toString());
     canonical.pathname = pathname.slice(0, -1);
     return Response.redirect(canonical.toString(), 301);
+  }
+
+  // sitemap.xml is a static file normally served as-is, but it must never
+  // list a page before that page's own release gate opens — otherwise the
+  // sitemap itself becomes the early-discovery leak, even though the page
+  // behind the link still 404s. Filtered dynamically so this holds exactly
+  // in step with RELEASE_GATES, with no separate timed deploy required.
+  if (pathname === '/sitemap.xml') {
+    const response = await env.ASSETS.fetch(assetRequest(url, pathname, request));
+    if (response.status !== 200) {
+      return new Response('', { status: 404, headers: { 'cache-control': 'no-store' } });
+    }
+    const text = await response.text();
+    const filtered = filterSitemap(text, new Date());
+    return new Response(filtered, {
+      status: 200,
+      headers: {
+        'content-type': 'application/xml; charset=utf-8',
+        'cache-control': cacheControl(pathname),
+      },
+    });
   }
 
   // Static assets (CSS, JS, images, fonts, etc.) are served directly.
@@ -304,4 +343,4 @@ export default {
 
 // Named exports for the release-boundary test suite only — the Worker
 // runtime uses the default export exclusively.
-export { isGated, RELEASE_GATES };
+export { isGated, RELEASE_GATES, filterSitemap };
