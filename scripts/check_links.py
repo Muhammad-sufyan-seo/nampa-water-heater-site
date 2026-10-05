@@ -48,8 +48,9 @@ for filepath in all_files:
     for href in hrefs:
         if href.startswith(('http://', 'https://', 'tel:', 'mailto:', '#')):
             continue
-        # strip fragment
-        path_part = href.split('#')[0]
+        # strip fragment and query string — a request's pathname never
+        # includes them, so e.g. style.css?v=20261004 resolves as style.css
+        path_part = href.split('#')[0].split('?')[0]
         if not path_part:
             continue
 
