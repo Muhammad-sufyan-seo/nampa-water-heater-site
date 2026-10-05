@@ -1171,6 +1171,16 @@ a:hover { color: var(--ember-dark); text-decoration: underline; }
   align-items: start;
 }
 
+/* Grid items default to min-width: auto, which for a child containing a
+   table resolves to the table's unwrapped max-content width. A long table
+   cell can then force the 1fr track - and the whole page - wider than the
+   viewport at every breakpoint. min-width: 0 lets the track size to the
+   available space so the table (and .cost-table's own mobile scroll rule
+   below) can constrain itself instead. */
+.content-with-sidebar > .article-content {
+  min-width: 0;
+}
+
 .sidebar {
   position: sticky;
   top: 88px;
@@ -1286,6 +1296,18 @@ a:hover { color: var(--ember-dark); text-decoration: underline; }
   display: block;
   margin-bottom: 0.35rem;
   color: var(--navy);
+}
+
+/* Wrapper that actually contains cost-table overflow. A <table> with
+   width:100% still grows past its container when a cell's content can't
+   wrap below some minimum (e.g. white-space: nowrap on narrow screens, or
+   one long unbroken phrase) - table auto-layout honors that content floor
+   over an explicit width. A plain block wrapper has no such floor, so it
+   stays at 100% of its container and scrolls the table inside it instead
+   of the whole page growing. */
+.table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .cost-table {
