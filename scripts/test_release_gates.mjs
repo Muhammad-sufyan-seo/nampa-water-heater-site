@@ -44,11 +44,11 @@ for (const path of controlPaths) {
   assert(isGated(path, new Date('2026-10-12T00:00:00Z')) === false, `${path}: control path never gated (after)`);
 }
 
-// All 7 approved batch paths must be present with the identical release instant.
+// All 7 approved Oct 5 batch paths must be present with that batch's release instant.
 // (Revised down from 10: the 6 brand pages + /brands hub were dropped —
 // their technical claims could not be verified beyond search-snippet level
 // in this environment, and stripping them left thin, duplicative content.)
-const expectedPaths = [
+const oct5Paths = [
   '/repair-vs-replace-nampa-id',
   '/common-issues/water-heater-rotten-egg-smell-nampa-id',
   '/water-heater-lifespan-nampa-id',
@@ -57,11 +57,21 @@ const expectedPaths = [
   '/water-heater-sizing-guide-nampa-id',
   '/water-heater-maintenance-checklist-nampa-id',
 ];
-assert(expectedPaths.length === 7, 'exactly 7 approved paths expected');
-for (const p of expectedPaths) {
+assert(oct5Paths.length === 7, 'exactly 7 approved Oct 5 paths expected');
+for (const p of oct5Paths) {
   assert(RELEASE_GATES[p] === '2026-10-05T01:00:00Z', `${p}: present with correct release instant (01:00 UTC Oct 5 = 06:00 PKT)`);
 }
-assert(Object.keys(RELEASE_GATES).length === 7, 'RELEASE_GATES has exactly 7 entries, no extras');
+
+// The single approved Oct 6 page (the only Oct 6 candidate ever brought to
+// review status — short-cycling was rejected and never replaced) must be
+// present with its own release instant.
+const oct6Paths = ['/water-heater-dip-tube-failure-nampa-id'];
+for (const p of oct6Paths) {
+  assert(RELEASE_GATES[p] === '2026-10-06T00:00:00Z', `${p}: present with correct release instant (00:00 UTC Oct 6)`);
+}
+
+const expectedPaths = [...oct5Paths, ...oct6Paths];
+assert(Object.keys(RELEASE_GATES).length === 8, 'RELEASE_GATES has exactly 8 entries, no extras');
 
 // The 6 dropped brand pages and /brands must NOT be gated entries — they
 // don't exist as files at all now, so a request 404s unconditionally,
@@ -79,24 +89,34 @@ for (const p of droppedPaths) {
   assert(!(p in RELEASE_GATES), `${p}: correctly absent from RELEASE_GATES (dropped from release)`);
 }
 
-// sitemap.xml must not leak any of the 7 gated URLs before their release
-// instant, and must include all 7 once it passes.
+// sitemap.xml must not leak any gated URL before its own release instant,
+// and must include it once that instant passes — checked independently per
+// batch, since Oct 5 and Oct 6 pages release at different instants.
 console.log('\nTesting sitemap.xml filtering...\n');
 const sitemapXml = readFileSync(new URL('../sitemap.xml', import.meta.url), 'utf-8');
 
-const beforeRelease = new Date('2026-10-04T11:00:00Z');
-const filteredBefore = filterSitemap(sitemapXml, beforeRelease);
+const beforeAnyRelease = new Date('2026-10-04T11:00:00Z');
+const filteredBeforeAny = filterSitemap(sitemapXml, beforeAnyRelease);
 for (const p of expectedPaths) {
-  assert(!filteredBefore.includes(`https://nampawaterheater.com${p}</loc>`), `sitemap pre-release: ${p} absent`);
+  assert(!filteredBeforeAny.includes(`https://nampawaterheater.com${p}</loc>`), `sitemap before any release: ${p} absent`);
 }
 // The 31 pre-existing pages must still be present pre-release.
-assert(filteredBefore.includes('https://nampawaterheater.com/</loc>'), 'sitemap pre-release: homepage still present');
-assert(filteredBefore.includes('https://nampawaterheater.com/about</loc>'), 'sitemap pre-release: /about still present');
+assert(filteredBeforeAny.includes('https://nampawaterheater.com/</loc>'), 'sitemap pre-release: homepage still present');
+assert(filteredBeforeAny.includes('https://nampawaterheater.com/about</loc>'), 'sitemap pre-release: /about still present');
 
-const afterRelease = new Date('2026-10-05T01:00:01Z');
-const filteredAfter = filterSitemap(sitemapXml, afterRelease);
+const afterOct5OnlyRelease = new Date('2026-10-05T01:00:01Z');
+const filteredAfterOct5Only = filterSitemap(sitemapXml, afterOct5OnlyRelease);
+for (const p of oct5Paths) {
+  assert(filteredAfterOct5Only.includes(`https://nampawaterheater.com${p}</loc>`), `sitemap after Oct 5 release only: ${p} present`);
+}
+for (const p of oct6Paths) {
+  assert(!filteredAfterOct5Only.includes(`https://nampawaterheater.com${p}</loc>`), `sitemap after Oct 5 release only: ${p} still absent (Oct 6 not yet released)`);
+}
+
+const afterBothReleases = new Date('2026-10-06T00:00:01Z');
+const filteredAfterBoth = filterSitemap(sitemapXml, afterBothReleases);
 for (const p of expectedPaths) {
-  assert(filteredAfter.includes(`https://nampawaterheater.com${p}</loc>`), `sitemap post-release: ${p} present`);
+  assert(filteredAfterBoth.includes(`https://nampawaterheater.com${p}</loc>`), `sitemap after both releases: ${p} present`);
 }
 
 // Dropped brand paths must never appear in the raw sitemap at all, at any time.

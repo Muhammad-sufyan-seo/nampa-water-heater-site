@@ -224,6 +224,7 @@ const RELEASE_GATES = {
   '/tankless-vs-tank-water-heater-nampa-id': '2026-10-05T01:00:00Z',
   '/water-heater-sizing-guide-nampa-id': '2026-10-05T01:00:00Z',
   '/water-heater-maintenance-checklist-nampa-id': '2026-10-05T01:00:00Z',
+  '/water-heater-dip-tube-failure-nampa-id': '2026-10-06T00:00:00Z',
 };
 
 /** Pure function — takes `now` as a parameter so release boundaries are testable. */
