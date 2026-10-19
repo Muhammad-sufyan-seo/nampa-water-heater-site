@@ -225,6 +225,15 @@ const RELEASE_GATES = {
   '/water-heater-sizing-guide-nampa-id': '2026-10-05T01:00:00Z',
   '/water-heater-maintenance-checklist-nampa-id': '2026-10-05T01:00:00Z',
   '/water-heater-dip-tube-failure-nampa-id': '2026-10-06T00:00:00Z',
+  '/flushing-vs-descaling-nampa-id': '2026-10-19T00:00:00Z',
+  '/common-issues/tankless-water-heater-goes-cold-mid-shower-nampa-id': '2026-10-19T00:00:00Z',
+  '/common-issues/water-heater-shuts-off-randomly-nampa-id': '2026-10-19T00:00:00Z',
+  '/common-issues/no-hot-water-one-fixture-nampa-id': '2026-10-19T00:00:00Z',
+  '/common-issues/low-hot-water-pressure-nampa-id': '2026-10-19T00:00:00Z',
+  '/common-issues/hot-and-cold-water-reversed-nampa-id': '2026-10-19T00:00:00Z',
+  '/common-issues/water-heater-burner-wont-ignite-nampa-id': '2026-10-19T00:00:00Z',
+  '/common-issues/water-heater-burning-smell-nampa-id': '2026-10-19T00:00:00Z',
+  '/common-issues/water-heater-condensation-nampa-id': '2026-10-19T00:00:00Z',
 };
 
 /** Pure function — takes `now` as a parameter so release boundaries are testable. */

@@ -28,7 +28,7 @@ for (const path of paths) {
   const atRelease = new Date(releaseAt.getTime());
   const oneSecAfter = new Date(releaseAt.getTime() + 1000);
   const wellBefore = new Date('2026-10-04T11:00:00Z');
-  const wellAfter = new Date('2026-10-12T00:00:00Z');
+  const wellAfter = new Date('2026-11-01T00:00:00Z');
 
   assert(isGated(path, wellBefore) === true, `${path}: gated well before release`);
   assert(isGated(path, oneSecBefore) === true, `${path}: gated 1s before release instant`);
@@ -70,8 +70,27 @@ for (const p of oct6Paths) {
   assert(RELEASE_GATES[p] === '2026-10-06T00:00:00Z', `${p}: present with correct release instant (00:00 UTC Oct 6)`);
 }
 
-const expectedPaths = [...oct5Paths, ...oct6Paths];
-assert(Object.keys(RELEASE_GATES).length === 8, 'RELEASE_GATES has exactly 8 entries, no extras');
+// The 9 approved Oct 19 pages (selected from the pre-existing Nampa topical map
+// after a full cannibalization/sourcing review — see the Oct 19 batch commit for
+// detail) must be present with their own release instant.
+const oct19Paths = [
+  '/flushing-vs-descaling-nampa-id',
+  '/common-issues/tankless-water-heater-goes-cold-mid-shower-nampa-id',
+  '/common-issues/water-heater-shuts-off-randomly-nampa-id',
+  '/common-issues/no-hot-water-one-fixture-nampa-id',
+  '/common-issues/low-hot-water-pressure-nampa-id',
+  '/common-issues/hot-and-cold-water-reversed-nampa-id',
+  '/common-issues/water-heater-burner-wont-ignite-nampa-id',
+  '/common-issues/water-heater-burning-smell-nampa-id',
+  '/common-issues/water-heater-condensation-nampa-id',
+];
+assert(oct19Paths.length === 9, 'exactly 9 approved Oct 19 paths expected');
+for (const p of oct19Paths) {
+  assert(RELEASE_GATES[p] === '2026-10-19T00:00:00Z', `${p}: present with correct release instant (00:00 UTC Oct 19)`);
+}
+
+const expectedPaths = [...oct5Paths, ...oct6Paths, ...oct19Paths];
+assert(Object.keys(RELEASE_GATES).length === 17, 'RELEASE_GATES has exactly 17 entries, no extras');
 
 // The 6 dropped brand pages and /brands must NOT be gated entries — they
 // don't exist as files at all now, so a request 404s unconditionally,
@@ -109,14 +128,23 @@ const filteredAfterOct5Only = filterSitemap(sitemapXml, afterOct5OnlyRelease);
 for (const p of oct5Paths) {
   assert(filteredAfterOct5Only.includes(`https://nampawaterheater.com${p}</loc>`), `sitemap after Oct 5 release only: ${p} present`);
 }
-for (const p of oct6Paths) {
-  assert(!filteredAfterOct5Only.includes(`https://nampawaterheater.com${p}</loc>`), `sitemap after Oct 5 release only: ${p} still absent (Oct 6 not yet released)`);
+for (const p of [...oct6Paths, ...oct19Paths]) {
+  assert(!filteredAfterOct5Only.includes(`https://nampawaterheater.com${p}</loc>`), `sitemap after Oct 5 release only: ${p} still absent (not yet released)`);
 }
 
-const afterBothReleases = new Date('2026-10-06T00:00:01Z');
-const filteredAfterBoth = filterSitemap(sitemapXml, afterBothReleases);
+const afterOct6OnlyRelease = new Date('2026-10-06T00:00:01Z');
+const filteredAfterOct6Only = filterSitemap(sitemapXml, afterOct6OnlyRelease);
+for (const p of [...oct5Paths, ...oct6Paths]) {
+  assert(filteredAfterOct6Only.includes(`https://nampawaterheater.com${p}</loc>`), `sitemap after Oct 5+6 releases: ${p} present`);
+}
+for (const p of oct19Paths) {
+  assert(!filteredAfterOct6Only.includes(`https://nampawaterheater.com${p}</loc>`), `sitemap after Oct 5+6 releases only: ${p} still absent (Oct 19 not yet released)`);
+}
+
+const afterAllReleases = new Date('2026-10-19T00:00:01Z');
+const filteredAfterAll = filterSitemap(sitemapXml, afterAllReleases);
 for (const p of expectedPaths) {
-  assert(filteredAfterBoth.includes(`https://nampawaterheater.com${p}</loc>`), `sitemap after both releases: ${p} present`);
+  assert(filteredAfterAll.includes(`https://nampawaterheater.com${p}</loc>`), `sitemap after all releases: ${p} present`);
 }
 
 // Dropped brand paths must never appear in the raw sitemap at all, at any time.
